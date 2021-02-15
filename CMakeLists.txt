@@ -14,4 +14,4 @@ add_executable(adminchatbot ${project_SRCS})
 target_link_libraries(adminchatbot ${wxWidgets_LIBRARIES})
 target_include_directories(adminchatbot PRIVATE ${wxWidgets_INCLUDE_DIRS})
 
-add_executable(adminconfig ../utils/adminconfig.cpp)
+add_executable(adminusers ../utils/adminusers.cpp)
