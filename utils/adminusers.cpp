@@ -3,25 +3,34 @@
 #include <fstream>
 #include <vector>
 #include <sstream> 
+#include <memory>
 
 using std::cout;
 using std::cin;
 using std::string;
 
-void processAddAdminUser(std::vector<string> *pdata);
+bool processAddAdminUser(std::vector<string> *pdata);
 void processListAdminUser();
 void processDeleteAdminUser();
 bool loadAdminFile(std::ifstream *adminFile, std::vector<string> *admindata);
+void createLockFile();
+bool isLockFilePresent();
+std::string encrypt(std::string msg);
+std::string decrypt(std::string msg);
 
-const std::string userAdminFilePath{"./data/adminusers.txt"};
+const std::string userAdminFilePathLock{"./data/adminusers.lock"};
+const std::string userAdminFile{"./data/adminusers.txt"};
 
 int main() {
     bool continueParentLoop;
     std::string pVal;
     std::ifstream adminFile;
-    std::vector<string> admindata;
+    std::unique_ptr<std::vector<string>> admindata = std::make_unique<std::vector<string>>();
 
     cout << "***Welcome to the Admin User Configuration Tool for the AdminChatbot***\n\n";    
+    if (isLockFilePresent()) {
+        _Exit(-1);
+    }
 
     do {
         continueParentLoop = false;
@@ -43,16 +52,22 @@ int main() {
             continueParentLoop = true;
         }
         else {
-            //take backup of file.
+            //Create lock file
+            createLockFile();
+
             //Then load file.
-            if (!loadAdminFile(&adminFile, &admindata)) {
+            if (!loadAdminFile(&adminFile, admindata.get())) {
                 cout << "There was a problem opening the adminUsers file.\n";
-                return -1;
+            
             }
         }
         
         if (pVal.compare("1") == 0) {
-            processAddAdminUser(&admindata);
+            continueParentLoop = processAddAdminUser(admindata.get());
+            for (string itr : *admindata) {
+                cout << itr << "\n";
+            }
+
         }
         else if (pVal.compare("2") == 0) {
             processDeleteAdminUser();
@@ -66,14 +81,27 @@ int main() {
         cin.clear();
     } while (continueParentLoop);
 
-    cout << "***Thanks for Playing!!***\n\n";
+    cout << "***Thanks. The adminusers utility program has ended.***\n\n";
+
+    //Remove lock file.
+    remove(userAdminFilePathLock.c_str());
 
     return 0;
 }
 
 //Implementation
-void processAddAdminUser(std::vector<string> *pdata) {
+bool processAddAdminUser(std::vector<string> *pdata) {
+    string uname, pass;
 
+    cout << "User Name: ";
+    cin >> uname;
+    cout << "Password (between 8 and 12 chars): ";
+    cin >> pass;
+
+    pdata->emplace_back(uname + "=" + pass);
+    cout << "\nAdmin User has been added.\n\n";
+
+    return true;
 }
 
 void processListAdminUser() {
@@ -83,24 +111,34 @@ void processListAdminUser() {
 void processDeleteAdminUser() {
     cout << "Got to processDeleteAdminUser()\n";
 
-// while (getline(fin,line))
-// {
-//     line.replace(line.find(deleteline),deleteline.length(),"");
-//     temp << line << endl;
-
-// }
-
 }
 
-bool doesSettingsFileExist() {
-    return false;
+void createLockFile() {
+    std::fstream fs;
+    fs.open(userAdminFilePathLock, std::ios::out);
+    fs.close();
+}
+
+bool isLockFilePresent() {
+    
+    if (FILE *file = fopen(userAdminFilePathLock.c_str(), "r")) {
+        cout << "Sorry, lock file is still present.  This means that someone else is running this program, \n";
+        cout << "Or the file was left there due to a previous crash. To continue, please remove it if you know that\n";
+        cout << "you're the only person using the adminusers utility.\n\n";
+        cout << "Path of lock file is: " + userAdminFilePathLock + "\n\n";
+        fclose(file);
+
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 bool loadAdminFile(std::ifstream *adminFile, std::vector<string> *pdata) {
-    adminFile->open(userAdminFilePath, std::fstream::in | std::fstream::out | std::fstream::app);
+    adminFile->open(userAdminFile, std::fstream::in | std::fstream::out | std::fstream::app);
     if (adminFile->is_open()) {
         for (std::string line; std::getline(*adminFile, line); ) {
-            cout << line << "\n";
             pdata->emplace_back(line);
         }
 
@@ -112,6 +150,28 @@ bool loadAdminFile(std::ifstream *adminFile, std::vector<string> *pdata) {
     }
        
 }
+
+/**
+ * XOR encryption
+ */ 
+std::string encrypt(std::string msg) {
+    string key = "S1Troessen2341&#reuther";
+
+    // Make sure the key is at least as long as the message
+    std::string tmp(key);
+    while (key.size() < msg.size())
+        key += tmp;
+    
+    // And now for the encryption part
+    for (std::string::size_type i = 0; i < msg.size(); ++i)
+        msg[i] ^= key[i];
+    return msg;
+}
+
+std::string decrypt(std::string msg) {
+    return encrypt(msg); // lol
+}
+
 
 // void eraseFileLine(std::string path, std::string eraseLine) {
 //     std::string line;
