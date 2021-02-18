@@ -12,19 +12,21 @@ using std::string;
 bool processAddAdminUser(std::vector<string> *pdata);
 void processListAdminUser();
 void processDeleteAdminUser();
-bool loadAdminFile(std::ifstream *adminFile, std::vector<string> *admindata);
+bool loadAdminFile(std::vector<string> *admindata);
 void createLockFile();
 bool isLockFilePresent();
+bool writeOutAdminFile(std::vector<string> *admindata);
 std::string encrypt(std::string msg);
 std::string decrypt(std::string msg);
 
 const std::string userAdminFilePathLock{"./data/adminusers.lock"};
 const std::string userAdminFile{"./data/adminusers.txt"};
 
+/**
+ */ 
 int main() {
     bool continueParentLoop;
     std::string pVal;
-    std::ifstream adminFile;
     std::unique_ptr<std::vector<string>> admindata = std::make_unique<std::vector<string>>();
 
     cout << "***Welcome to the Admin User Configuration Tool for the AdminChatbot***\n\n";    
@@ -56,18 +58,13 @@ int main() {
             createLockFile();
 
             //Then load file.
-            if (!loadAdminFile(&adminFile, admindata.get())) {
-                cout << "There was a problem opening the adminUsers file.\n";
-            
+            if (!loadAdminFile(admindata.get())) {
+                cout << "There was a problem opening the adminUsers file.\n";      
             }
         }
         
         if (pVal.compare("1") == 0) {
             continueParentLoop = processAddAdminUser(admindata.get());
-            for (string itr : *admindata) {
-                cout << itr << "\n";
-            }
-
         }
         else if (pVal.compare("2") == 0) {
             processDeleteAdminUser();
@@ -76,12 +73,16 @@ int main() {
             processListAdminUser();
         }
         
-        //Resave the new list.
-
         cin.clear();
     } while (continueParentLoop);
 
-    cout << "***Thanks. The adminusers utility program has ended.***\n\n";
+    //Write out adminusers file.
+    if (!writeOutAdminFile(admindata.get())) {
+        std::cerr << "There was a problem writing the admin user's data to the file.\n";
+    }
+    else {
+        cout << "***Thanks. The adminusers utility program has ended.***\n\n";
+    }
 
     //Remove lock file.
     remove(userAdminFilePathLock.c_str());
@@ -92,13 +93,13 @@ int main() {
 //Implementation
 bool processAddAdminUser(std::vector<string> *pdata) {
     string uname, pass;
-
+    //Add a do while here in case of duplicates.
     cout << "User Name: ";
     cin >> uname;
     cout << "Password (between 8 and 12 chars): ";
     cin >> pass;
-
-    pdata->emplace_back(uname + "=" + pass);
+    
+    pdata->emplace_back(uname + "=" + encrypt(pass));
     cout << "\nAdmin User has been added.\n\n";
 
     return true;
@@ -135,36 +136,40 @@ bool isLockFilePresent() {
     }
 }
 
-bool loadAdminFile(std::ifstream *adminFile, std::vector<string> *pdata) {
-    adminFile->open(userAdminFile, std::fstream::in | std::fstream::out | std::fstream::app);
-    if (adminFile->is_open()) {
-        for (std::string line; std::getline(*adminFile, line); ) {
+bool loadAdminFile(std::vector<string> *pdata) {
+    std::ifstream adminFile(userAdminFile, std::fstream::in);
+    if (adminFile.is_open()) {
+        for (std::string line; std::getline(adminFile, line); ) {
             pdata->emplace_back(line);
         }
-
+        
+        adminFile.close();
         return true;
     }
     else {
         std::cerr << "adminusers file could not be opened." << "\n";
         return false;
     }
-       
+    
 }
 
 /**
  * XOR encryption
  */ 
 std::string encrypt(std::string msg) {
-    string key = "S1Troessen2341&#reuther";
+    string key = "Stroessenreuther";
 
     // Make sure the key is at least as long as the message
     std::string tmp(key);
-    while (key.size() < msg.size())
+    while (key.size() < msg.size()) {
         key += tmp;
-    
+    }
+
     // And now for the encryption part
-    for (std::string::size_type i = 0; i < msg.size(); ++i)
+    for (std::string::size_type i = 0; i < msg.size(); ++i) {
         msg[i] ^= key[i];
+    }
+
     return msg;
 }
 
@@ -172,49 +177,20 @@ std::string decrypt(std::string msg) {
     return encrypt(msg); // lol
 }
 
-
-// void eraseFileLine(std::string path, std::string eraseLine) {
-//     std::string line;
-//     std::ifstream fin;
+bool writeOutAdminFile(std::vector<string> *admindata) {
+    std::fstream outData(userAdminFile, std::ios::out | std::ios::trunc);
     
-//     fin.open(path);
-//     // contents of path must be copied to a temp file then
-//     // renamed back to the path file
-//     std::ofstream temp;
-//     temp.open("temp.txt");
+    if (outData) {
+        for (string itr : *admindata) {
+            outData << itr;
+            outData << "\n";
+        }
 
-//     while (getline(fin, line)) {
-//         // write all lines to temp other than the line marked for erasing
-//         if (line != eraseLine)
-//             temp << line << std::endl;
-//     }
-
-//     temp.close();
-//     fin.close();
-
-//     // required conversion for remove and rename functions
-//     const char * p = path.c_str();
-//     remove(p);
-//     rename("temp.txt", p);
-// }
-
-// void exampleJson() {
-
-//     // 1. Parse a JSON string into DOM.
-//     const char* json = "{\"project\":\"rapidjson\",\"stars\":10}";
-//     Document d;
-//     d.Parse(json);
- 
-//     // 2. Modify it by DOM.
-//     Value& s = d["stars"];
-//     s.SetInt(s.GetInt() + 1);
- 
-//     // 3. Stringify the DOM
-//     StringBuffer buffer;
-//     Writer<StringBuffer> writer(buffer);
-//     d.Accept(writer);
- 
-//     // Output {"project":"rapidjson","stars":11}
-//     std::cout << buffer.GetString() << std::endl;
-
-// }
+        outData.close();
+        return true;
+    }
+    else {
+        std::cerr << "adminusers file could not be opened." << "\n";
+        return false;
+    }
+}
