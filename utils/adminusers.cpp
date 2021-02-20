@@ -4,6 +4,8 @@
 #include <vector>
 #include <sstream> 
 #include <memory>
+#include <algorithm>
+#include <signal.h>
 
 using std::cout;
 using std::cin;
@@ -16,15 +18,24 @@ bool loadAdminFile(std::vector<string> *admindata);
 void createLockFile();
 bool isLockFilePresent();
 bool writeOutAdminFile(std::vector<string> *admindata);
+bool isUserPassValid(string &user, string &pass, std::vector<string> *pdata);
+bool isOnlyASCIIAndNotSpace(const std::string &strval);
 std::string encrypt(std::string msg);
 std::string decrypt(std::string msg);
 
+//const std::string userAdminFilePathLock{"../data/adminusers.lock"};
+//const std::string userAdminFile{"../data/adminusers.txt"};
+//For debugging purposes
 const std::string userAdminFilePathLock{"./data/adminusers.lock"};
 const std::string userAdminFile{"./data/adminusers.txt"};
 
+void signal_callback_handler(int signum) {
+    cout << "Please type \"Q\" to exit program." << "\n";
+}
 /**
  */ 
 int main() {
+    signal(SIGINT, signal_callback_handler);
     bool continueParentLoop;
     std::string pVal;
     std::unique_ptr<std::vector<string>> admindata = std::make_unique<std::vector<string>>();
@@ -92,14 +103,24 @@ int main() {
 
 //Implementation
 bool processAddAdminUser(std::vector<string> *pdata) {
-    string uname, pass;
-    //Add a do while here in case of duplicates.
-    cout << "User Name: ";
-    cin >> uname;
-    cout << "Password (between 8 and 12 chars): ";
-    cin >> pass;
-    
-    pdata->emplace_back(uname + "=" + encrypt(pass));
+    string uname, pass, qvar;
+    bool continueAddLoop;
+
+    do {
+        continueAddLoop = false;
+        cout << "User Name (between 8 and 12 ASCII characters): ";
+        cin >> uname;
+        cout << "Password (between 8 and 12 ASCII characters): ";
+        cin >> pass;
+
+        if (!isUserPassValid(uname, pass, pdata)) {
+            cout << "Either the user name or password did not pass validation.\n";
+            continueAddLoop = true;
+        }
+
+    } while(continueAddLoop);
+
+    pdata->emplace_back(uname + "::::" + encrypt(pass));
     cout << "\nAdmin User has been added.\n\n";
 
     return true;
@@ -114,10 +135,47 @@ void processDeleteAdminUser() {
 
 }
 
+bool isUserPassValid(string &user, string &pass, std::vector<string> *pdata) {
+    //Check length.
+    if (user.length() > 12 || user.length() < 8) {
+        return false;
+    }
+
+    if (pass.length() > 12 || pass.length() < 8) {
+        return false;
+    }
+
+    if (!isOnlyASCIIAndNotSpace(user) || !isOnlyASCIIAndNotSpace(pass)) {
+        return false;
+    }
+
+    //Check for duplicates
+    for (string itr : *pdata) {
+        std::string delimiter = "::::";
+        std::string ucheck = itr.substr(0, itr.find(delimiter)); 
+
+        if (user.compare(ucheck) == 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 void createLockFile() {
     std::fstream fs;
     fs.open(userAdminFilePathLock, std::ios::out);
     fs.close();
+}
+
+bool isOnlyASCIIAndNotSpace(const std::string &strval) {
+    for (auto c: strval) {
+        if (static_cast<unsigned char>(c) > 127 || static_cast<unsigned char>(c) == 32) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 bool isLockFilePresent() {
