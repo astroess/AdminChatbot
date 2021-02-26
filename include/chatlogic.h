@@ -10,8 +10,7 @@ class ChatBot;
 class GraphEdge;
 class GraphNode;
 
-class ChatLogic
-{
+class ChatLogic {
 private:
     //// STUDENT CODE
     ////

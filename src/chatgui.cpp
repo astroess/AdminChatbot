@@ -5,6 +5,14 @@
 #include "chatbot.h"
 #include "chatlogic.h"
 #include "chatgui.h"
+#include "adminutility.h"
+
+const long ChatBotFrame::ID_STATICTEXT1 = wxNewId();
+const long ChatBotFrame::ID_USERCTRL1 = wxNewId();
+const long ChatBotFrame::ID_ADMINLOGIN = wxNewId();
+const long ChatBotFrame::ID_PASSWORDTEXT = wxNewId();
+const long ChatBotFrame::ID_PASSTEXTCTRL = wxNewId();
+const long ChatBotFrame::ID_ADDANSWERBUTTON = wxNewId();
 
 // size of chatbot window
 const int width = 414;
@@ -16,23 +24,51 @@ IMPLEMENT_APP(ChatBotApp);
 std::string dataPath = "../";
 std::string imgBasePath = dataPath + "images/";
 
-bool ChatBotApp::OnInit()
-{
+bool ChatBotApp::OnInit() {
     // create window with name and show it
-    ChatBotFrame *chatBotFrame = new ChatBotFrame(wxT("Udacity ChatBot"));
+    ChatBotFrame *chatBotFrame = new ChatBotFrame(wxT("AdminChatBot - Logged in as Guest user."));
     chatBotFrame->Show(true);
 
     return true;
 }
 
 // wxWidgets FRAME
-ChatBotFrame::ChatBotFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(width, height))
-{
-    // create panel with background image
-    ChatBotFrameImagePanel *ctrlPanel = new ChatBotFrameImagePanel(this);
+ChatBotFrame::ChatBotFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(width, height)) {
+    // create back panel.
+    ChatBotFrameBackPanel *ctrlPanel = new ChatBotFrameBackPanel(this);
 
     // create controls and assign them to control panel
     _panelDialog = new ChatBotPanelDialog(ctrlPanel, wxID_ANY);
+    
+    _topPanel = new wxPanel(ctrlPanel, wxID_ANY);
+    _topPanel->SetBackgroundColour(wxColour(192, 192, 192));
+    _topSizer = new wxGridSizer(2, 3, 1, 0);
+    
+     _userText = new wxStaticText(_topPanel, ID_STATICTEXT1, _("User Name:"), wxDefaultPosition, wxSize(84,25), 0, _T("ID_STATICTEXT1"));
+     _topSizer->Add(_userText, 1, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
+
+    _textCtrlUser = new wxTextCtrl(_topPanel, ID_USERCTRL1, wxEmptyString, wxDefaultPosition, wxSize(94,34), wxTAB_TRAVERSAL, wxDefaultValidator, _T("ID_USERCTRL1"));
+    _topSizer->Add(_textCtrlUser, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+
+    _adminLogin = new wxButton(_topPanel, ID_ADMINLOGIN, _("Admin Login"), wxDefaultPosition, wxSize(109,34), 0, wxDefaultValidator, _T("ID_ADMINLOGIN"));
+    _topSizer->Add(_adminLogin, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+
+    _passwordText = new wxStaticText(_topPanel, ID_PASSWORDTEXT, _("Password:"), wxDefaultPosition, wxSize(79,23), 0, _T("ID_PASSWORDTEXT"));
+    _topSizer->Add(_passwordText, 1, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
+
+    _passTextCtrl = new wxTextCtrl(_topPanel, ID_PASSTEXTCTRL, wxEmptyString, wxDefaultPosition, wxSize(96,34), wxTE_PASSWORD|wxTAB_TRAVERSAL, wxDefaultValidator, _T("ID_PASSTEXTCTRL"));
+    _topSizer->Add(_passTextCtrl, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+
+    _addAnswerButton = new wxButton(_topPanel, ID_ADDANSWERBUTTON, _("Add Answer"), wxDefaultPosition, wxSize(110,34), 0, wxDefaultValidator, _T("ID_ADDANSWERBUTTON"));
+    _addAnswerButton->Disable();
+    _topSizer->Add(_addAnswerButton, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+
+    _topPanel->SetSizer(_topSizer);
+
+    Connect(ID_ADMINLOGIN,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ChatBotFrame::OnAdminLoginClick);
+    Connect(ID_ADDANSWERBUTTON,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ChatBotFrame::OnAddAnswerClick);
+    _textCtrlUser->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&ChatBotFrame::OntopPanelKeyDown,0,this);
+    _passTextCtrl->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&ChatBotFrame::OntopPanelKeyDown,0,this);
 
     // create text control for user input
     int idTextXtrl = 1;
@@ -41,13 +77,63 @@ ChatBotFrame::ChatBotFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, titl
 
     // create vertical sizer for panel alignment and add panels
     wxBoxSizer *vertBoxSizer = new wxBoxSizer(wxVERTICAL);
-    vertBoxSizer->AddSpacer(90);
-    vertBoxSizer->Add(_panelDialog, 6, wxEXPAND | wxALL, 0);
+    vertBoxSizer->Add(_topPanel, 1, wxEXPAND, 0); 
+    vertBoxSizer->Add(_panelDialog, 8, wxEXPAND | wxALL, 0);
     vertBoxSizer->Add(_userTextCtrl, 1, wxEXPAND | wxALL, 5);
     ctrlPanel->SetSizer(vertBoxSizer);
 
     // position window in screen center
     this->Centre();
+}
+
+void ChatBotFrame::OnAdminLoginClick(wxCommandEvent& event) {
+    AdminUtility au;
+    std::string userSend = std::string(_textCtrlUser->GetValue().mb_str());
+    std::string passSend = std::string(_passTextCtrl->GetValue().mb_str());
+    if (au.isAthenticated(userSend, passSend)) {
+        if (_adminLogin->GetLabelText().compare("Admin Login") == 0) {
+            this->SetTitle("AdminChatBot - Logged in as Admin User.");
+            _addAnswerButton->Enable();   
+            _adminLogin->SetLabelText("Log Off Admin");
+             wxMessageBox( wxT("Successfully logged in"), 
+                wxT("Admin"), wxICON_INFORMATION);
+
+        }
+    }
+    else {
+        if (_adminLogin->GetLabelText().compare("Admin Login") != 0) {
+            this->SetTitle("AdminChatBot - Logged in as Guest user.");
+            _addAnswerButton->Disable();   
+            _adminLogin->SetLabelText("Admin Login");
+            wxMessageBox( wxT("Successfully logged off"), 
+                wxT("Guest"), wxICON_INFORMATION);
+        }
+        else {
+            wxMessageBox( wxT("Sorry, you did not authenticate."), 
+                wxT("Failure"), wxICON_INFORMATION);
+        }
+    }
+
+    _passTextCtrl->SetValue("");
+    _textCtrlUser->SetValue("");
+}
+
+void ChatBotFrame::OntopPanelKeyDown(wxKeyEvent& event) {
+    int keycode = event.GetKeyCode();
+    if (keycode == 9 && _textCtrlUser->HasFocus()) {
+        _passTextCtrl->SetFocus();
+    }
+    else if (keycode == 9 && _passTextCtrl->HasFocus()) {
+        _adminLogin->SetFocus();
+    }
+    else {
+        event.Skip();
+    }
+}
+
+void ChatBotFrame::OnAddAnswerClick(wxCommandEvent& event) {
+    wxMessageBox( wxT("This is the message for OnAddAnswerClick"), 
+        wxT("This is the title OnAddAnswerClick"), wxICON_INFORMATION);
 }
 
 void ChatBotFrame::OnEnter(wxCommandEvent &WXUNUSED(event))
@@ -65,48 +151,13 @@ void ChatBotFrame::OnEnter(wxCommandEvent &WXUNUSED(event))
      _panelDialog->GetChatLogicHandle()->SendMessageToChatbot(std::string(userText.mb_str()));
 }
 
-BEGIN_EVENT_TABLE(ChatBotFrameImagePanel, wxPanel)
-EVT_PAINT(ChatBotFrameImagePanel::paintEvent) // catch paint events
-END_EVENT_TABLE()
-
-ChatBotFrameImagePanel::ChatBotFrameImagePanel(wxFrame *parent) : wxPanel(parent)
-{
-}
-
-void ChatBotFrameImagePanel::paintEvent(wxPaintEvent &evt)
-{
-    wxPaintDC dc(this);
-    render(dc);
-}
-
-void ChatBotFrameImagePanel::paintNow()
-{
-    wxClientDC dc(this);
-    render(dc);
-}
-
-void ChatBotFrameImagePanel::render(wxDC &dc)
-{
-    // load backgroud image from file
-    wxString imgFile = imgBasePath + "sf_bridge.jpg";
-    wxImage image;
-    image.LoadFile(imgFile);
-
-    // rescale image to fit window dimensions
-    wxSize sz = this->GetSize();
-    wxImage imgSmall = image.Rescale(sz.GetWidth(), sz.GetHeight(), wxIMAGE_QUALITY_HIGH);
-    _image = wxBitmap(imgSmall);
-    
-    dc.DrawBitmap(_image, 0, 0, false);
-}
+ChatBotFrameBackPanel::ChatBotFrameBackPanel(wxFrame *parent) : wxPanel(parent) {}
 
 BEGIN_EVENT_TABLE(ChatBotPanelDialog, wxPanel)
 EVT_PAINT(ChatBotPanelDialog::paintEvent) // catch paint events
 END_EVENT_TABLE()
 
-ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id)
-    : wxScrolledWindow(parent, id)
-{
+ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id) : wxScrolledWindow(parent, id) {   
     // sizer will take care of determining the needed scroll size
     _dialogSizer = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(_dialogSizer);
@@ -131,8 +182,7 @@ ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id)
     //// EOF STUDENT CODE
 }
 
-ChatBotPanelDialog::~ChatBotPanelDialog()
-{
+ChatBotPanelDialog::~ChatBotPanelDialog() {
     //// STUDENT CODE
     ////
 
@@ -142,8 +192,7 @@ ChatBotPanelDialog::~ChatBotPanelDialog()
     //// EOF STUDENT CODE
 }
 
-void ChatBotPanelDialog::AddDialogItem(wxString text, bool isFromUser)
-{
+void ChatBotPanelDialog::AddDialogItem(wxString text, bool isFromUser) {
     // add a single dialog element to the sizer
     ChatBotPanelDialogItem *item = new ChatBotPanelDialogItem(this, text, isFromUser);
     _dialogSizer->Add(item, 0, wxALL | (isFromUser == true ? wxALIGN_LEFT : wxALIGN_RIGHT), 8);
@@ -161,21 +210,18 @@ void ChatBotPanelDialog::AddDialogItem(wxString text, bool isFromUser)
     this->DoScroll(0, sy);
 }
 
-void ChatBotPanelDialog::PrintChatbotResponse(std::string response)
-{
+void ChatBotPanelDialog::PrintChatbotResponse(std::string response) {
     // convert string into wxString and add dialog element
     wxString botText(response.c_str(), wxConvUTF8);
     AddDialogItem(botText, false);
 }
 
-void ChatBotPanelDialog::paintEvent(wxPaintEvent &evt)
-{
+void ChatBotPanelDialog::paintEvent(wxPaintEvent &evt) {
     wxPaintDC dc(this);
     render(dc);
 }
 
-void ChatBotPanelDialog::paintNow()
-{
+void ChatBotPanelDialog::paintNow() {
     wxClientDC dc(this);
     render(dc);
 }
@@ -183,7 +229,7 @@ void ChatBotPanelDialog::paintNow()
 void ChatBotPanelDialog::render(wxDC &dc)
 {
     wxImage image;
-    image.LoadFile(imgBasePath + "sf_bridge_inner.jpg");
+    image.LoadFile(imgBasePath + "winter_landscape.jpg");
 
     wxSize sz = this->GetSize();
     wxImage imgSmall = image.Rescale(sz.GetWidth(), sz.GetHeight(), wxIMAGE_QUALITY_HIGH);
