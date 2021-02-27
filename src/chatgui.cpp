@@ -33,9 +33,10 @@ bool ChatBotApp::OnInit() {
 }
 
 // wxWidgets FRAME
-ChatBotFrame::ChatBotFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(width, height)) {
+ChatBotFrame::ChatBotFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(width, height), wxCLOSE_BOX|wxMINIMIZE_BOX) {
     // create back panel.
     ChatBotFrameBackPanel *ctrlPanel = new ChatBotFrameBackPanel(this);
+    wxFont font(9, wxFONTFAMILY_DEFAULT, wxNORMAL, wxNORMAL);
 
     // create controls and assign them to control panel
     _panelDialog = new ChatBotPanelDialog(ctrlPanel, wxID_ANY);
@@ -44,13 +45,14 @@ ChatBotFrame::ChatBotFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, titl
     _topPanel->SetBackgroundColour(wxColour(192, 192, 192));
     _topSizer = new wxGridSizer(2, 3, 1, 0);
     
-     _userText = new wxStaticText(_topPanel, ID_STATICTEXT1, _("User Name:"), wxDefaultPosition, wxSize(84,25), 0, _T("ID_STATICTEXT1"));
-     _topSizer->Add(_userText, 1, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
+    _userText = new wxStaticText(_topPanel, ID_STATICTEXT1, _("User Name:"), wxDefaultPosition, wxSize(84,25), 0, _T("ID_STATICTEXT1"));
+    _topSizer->Add(_userText, 1, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
 
     _textCtrlUser = new wxTextCtrl(_topPanel, ID_USERCTRL1, wxEmptyString, wxDefaultPosition, wxSize(94,34), wxTAB_TRAVERSAL, wxDefaultValidator, _T("ID_USERCTRL1"));
     _topSizer->Add(_textCtrlUser, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 
     _adminLogin = new wxButton(_topPanel, ID_ADMINLOGIN, _("Admin Login"), wxDefaultPosition, wxSize(109,34), 0, wxDefaultValidator, _T("ID_ADMINLOGIN"));
+    _adminLogin->SetFont(font);
     _topSizer->Add(_adminLogin, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 
     _passwordText = new wxStaticText(_topPanel, ID_PASSWORDTEXT, _("Password:"), wxDefaultPosition, wxSize(79,23), 0, _T("ID_PASSWORDTEXT"));
@@ -60,6 +62,7 @@ ChatBotFrame::ChatBotFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, titl
     _topSizer->Add(_passTextCtrl, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 
     _addAnswerButton = new wxButton(_topPanel, ID_ADDANSWERBUTTON, _("Add Answer"), wxDefaultPosition, wxSize(110,34), 0, wxDefaultValidator, _T("ID_ADDANSWERBUTTON"));
+    _addAnswerButton->SetFont(font);
     _addAnswerButton->Disable();
     _topSizer->Add(_addAnswerButton, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 
@@ -90,6 +93,7 @@ void ChatBotFrame::OnAdminLoginClick(wxCommandEvent& event) {
     AdminUtility au;
     std::string userSend = std::string(_textCtrlUser->GetValue().mb_str());
     std::string passSend = std::string(_passTextCtrl->GetValue().mb_str());
+
     if (au.isAthenticated(userSend, passSend)) {
         if (_adminLogin->GetLabelText().compare("Admin Login") == 0) {
             this->SetTitle("AdminChatBot - Logged in as Admin User.");
@@ -148,7 +152,7 @@ void ChatBotFrame::OnEnter(wxCommandEvent &WXUNUSED(event))
     _userTextCtrl->Clear();
 
     // send user text to chatbot 
-     _panelDialog->GetChatLogicHandle()->SendMessageToChatbot(std::string(userText.mb_str()));
+    _panelDialog->GetChatLogicHandle()->SendMessageToChatbot(std::string(userText.mb_str()));
 }
 
 ChatBotFrameBackPanel::ChatBotFrameBackPanel(wxFrame *parent) : wxPanel(parent) {}
