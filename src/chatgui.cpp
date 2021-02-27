@@ -33,10 +33,17 @@ bool ChatBotApp::OnInit() {
 }
 
 // wxWidgets FRAME
-ChatBotFrame::ChatBotFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(width, height), wxCLOSE_BOX|wxMINIMIZE_BOX) {
+ChatBotFrame::ChatBotFrame(const wxString &title) : 
+    wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(width, height), wxCLOSE_BOX|wxMINIMIZE_BOX|wxSYSTEM_MENU|wxCAPTION) {
     // create back panel.
     ChatBotFrameBackPanel *ctrlPanel = new ChatBotFrameBackPanel(this);
     wxFont font(9, wxFONTFAMILY_DEFAULT, wxNORMAL, wxNORMAL);
+
+    //Set icon
+    wxIcon iconBot; 
+    wxBitmap bitmap(wxT("../images/bot.png"), wxBITMAP_TYPE_PNG); 
+    iconBot.CopyFromBitmap(bitmap); 
+    SetIcon(iconBot);
 
     // create controls and assign them to control panel
     _panelDialog = new ChatBotPanelDialog(ctrlPanel, wxID_ANY);
