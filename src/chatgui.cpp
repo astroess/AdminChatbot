@@ -6,6 +6,7 @@
 #include "chatlogic.h"
 #include "chatgui.h"
 #include "adminutility.h"
+#include "answers.h"
 
 const long ChatBotFrame::ID_STATICTEXT1 = wxNewId();
 const long ChatBotFrame::ID_USERCTRL1 = wxNewId();
@@ -44,7 +45,7 @@ ChatBotFrame::ChatBotFrame(const wxString &title) :
     wxBitmap bitmap(wxT("../images/bot.png"), wxBITMAP_TYPE_PNG); 
     iconBot.CopyFromBitmap(bitmap); 
     SetIcon(iconBot);
-
+    
     // create controls and assign them to control panel
     _panelDialog = new ChatBotPanelDialog(ctrlPanel, wxID_ANY);
     
@@ -143,8 +144,13 @@ void ChatBotFrame::OntopPanelKeyDown(wxKeyEvent& event) {
 }
 
 void ChatBotFrame::OnAddAnswerClick(wxCommandEvent& event) {
-    wxMessageBox( wxT("This is the message for OnAddAnswerClick"), 
-        wxT("This is the title OnAddAnswerClick"), wxICON_INFORMATION);
+    // wxMessageBox( wxT("This is the message for OnAddAnswerClick"), 
+    //     wxT("This is the title OnAddAnswerClick"), wxICON_INFORMATION);
+    
+    //Answers *aDialog = new Answers(NULL, 10, wxDefaultPosition, wxDefaultSize);
+    Answers aDialog(NULL);
+    aDialog.ShowModal();
+       
 }
 
 void ChatBotFrame::OnEnter(wxCommandEvent &WXUNUSED(event))
