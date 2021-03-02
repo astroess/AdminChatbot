@@ -147,7 +147,6 @@ void ChatBotFrame::OnAddAnswerClick(wxCommandEvent& event) {
     // wxMessageBox( wxT("This is the message for OnAddAnswerClick"), 
     //     wxT("This is the title OnAddAnswerClick"), wxICON_INFORMATION);
     
-    //Answers *aDialog = new Answers(NULL, 10, wxDefaultPosition, wxDefaultSize);
     Answers aDialog(NULL);
     aDialog.ShowModal();
        
@@ -195,6 +194,7 @@ ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id) : wxScro
     // load answer graph from file
     _chatLogic->LoadAnswerGraphFromFile(dataPath + "src/answergraph.txt");
 
+    _chatLogic->LoadAnswersFromJsonFile(dataPath + "data/answers.json");
     ////
     //// EOF STUDENT CODE
 }

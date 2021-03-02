@@ -19,13 +19,11 @@ BEGIN_EVENT_TABLE(Answers,wxDialog)
 	//*)
 END_EVENT_TABLE()
 
-Answers::Answers(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
-{
+Answers::Answers(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size) {
 	//(*Initialize(Answers)
 	wxGridBagSizer* dialogGridBagSizer;
 
 	Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxCAPTION|wxCLOSE_BOX|wxMINIMIZE_BOX, _T("id"));
-	//SetClientSize(wxDefaultSize);
 	Move(wxDefaultPosition);
 	dialogGridBagSizer = new wxGridBagSizer(1, 1);
 	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("Keywords / Short Phrases\n(separated by a commas):"), wxDefaultPosition, wxSize(186,46), 0, _T("ID_STATICTEXT1"));
@@ -47,28 +45,22 @@ Answers::Answers(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize&
 	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&Answers::OncancelButtonClick);
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&Answers::OnsaveButtonClick);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&Answers::OnClose);
-	//this->Bind(wxEVT_CLOSE_WINDOW, &Answers::OnClose, this);
 	//*)
 }
 
-Answers::~Answers()
-{
+Answers::~Answers() {
 	//(*Destroy(Answers)
 	//*)
 }
 
 
-void Answers::OnClose(wxCloseEvent& event)
-{
-    //delete this;
+void Answers::OnClose(wxCloseEvent& event) {
 	Destroy();
-
 }
 
-void Answers::OncancelButtonClick(wxCommandEvent& event)
-{
+void Answers::OncancelButtonClick(wxCommandEvent& event) {
+	Destroy();
 }
 
-void Answers::OnsaveButtonClick(wxCommandEvent& event)
-{
+void Answers::OnsaveButtonClick(wxCommandEvent& event) {
 }

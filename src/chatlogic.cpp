@@ -5,13 +5,19 @@
 #include <iterator>
 #include <tuple>
 #include <algorithm>
+#include "rapidjson/document.h"
+#include <rapidjson/istreamwrapper.h>
+#include "rapidjson/stringbuffer.h"
+#include <rapidjson/writer.h>
 
 #include "graphedge.h"
 #include "graphnode.h"
 #include "chatbot.h"
 #include "chatlogic.h"
 
-
+#include "rapidjson/document.h"
+ 
+using namespace rapidjson;
 ChatLogic::ChatLogic()
 {
     //// STUDENT CODE
@@ -71,6 +77,48 @@ void ChatLogic::AddAllTokensToElement(std::string tokenID, tokenlist &tokens, T 
             break; // quit infinite while-loop
         }
     }
+}
+
+void ChatLogic::LoadAnswersFromJsonFile(std::string filename) {
+    std::ifstream answersFile(filename, std::fstream::in);
+    
+    if (!answersFile.is_open()) {
+        std::cerr << "Could not open file for reading!\n";
+        return;
+    }
+
+    IStreamWrapper answerStream {answersFile};
+
+    //See if I can put this into a pointer on the heap.
+    Document answersDoc;
+
+    answersDoc.ParseStream(answerStream);
+    if (answersDoc.HasParseError()) {
+        std::cout << "Error  : " << answersDoc.GetParseError()  << '\n'
+                  << "Offset : " << answersDoc.GetErrorOffset() << '\n';
+        answersFile.close();
+        return;
+    }
+
+
+    for (auto const& p : answersDoc["data"].GetArray()) {
+        for (auto const& in : p["keywords"].GetArray()) {
+            std::cout << in.GetString() << std::endl;
+        }
+
+        std::cout << p["answer"].GetString() << std::endl;
+    }
+
+
+    // //Put Json StringBuffer on Heap
+    // std::unique_ptr<StringBuffer> buffer = std::make_unique<StringBuffer>();
+
+    // Writer<StringBuffer> writer(*buffer);
+    // answersDoc->Accept(writer);
+ 
+    // std::string output = buffer->GetString();
+    // std::cout << output << "\n";   
+
 }
 
 void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
