@@ -7,6 +7,7 @@
 #include "graphnode.h"
 #include "graphedge.h"
 #include "chatbot.h"
+#include "answernode.h"
 
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
@@ -15,6 +16,7 @@ ChatBot::ChatBot()
     _image = nullptr;
     _chatLogic = nullptr;
     _rootNode = nullptr;
+    _answerNode = nullptr;
 }
 
 // constructor WITH memory allocation
@@ -24,6 +26,7 @@ ChatBot::ChatBot(std::string filename)
     // invalidate data handles
     _chatLogic = nullptr;
     _rootNode = nullptr;
+    _answerNode = nullptr;
 
     // load image into heap memory
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
@@ -51,6 +54,7 @@ ChatBot::~ChatBot()
 ChatBot::ChatBot(const ChatBot &source) {
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
+    _answerNode = source._answerNode;
     _chatLogic = source._chatLogic;
     _image = source._image;
 
@@ -70,6 +74,7 @@ ChatBot &ChatBot::operator=(const ChatBot &source)
     _image = new wxBitmap(*source._image);
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
+    _answerNode = source._answerNode;
     _chatLogic = source._chatLogic;
     _chatLogic->SetChatbotHandle(this);
 
@@ -83,6 +88,7 @@ ChatBot::ChatBot(ChatBot &&source)
 {
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
+    _answerNode = source._answerNode;
     _chatLogic = source._chatLogic;
     _image = source._image;
 
@@ -90,6 +96,7 @@ ChatBot::ChatBot(ChatBot &&source)
 
     source._currentNode = nullptr;
     source._rootNode = nullptr;
+    source._answerNode = nullptr;
     source._chatLogic = nullptr;    
     delete source._image;
     source._image = NULL;
@@ -104,18 +111,20 @@ ChatBot &ChatBot::operator=(ChatBot &&source)
     if (this == &source)
         return *this;
 
-     if(_image != NULL) 
+    if(_image != NULL) 
          delete _image;
 
     _image = new wxBitmap(*source._image);
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
+    _answerNode = source._answerNode;
     _chatLogic = source._chatLogic;
     
     _chatLogic->SetChatbotHandle(this);
 
     source._currentNode = nullptr;
     source._rootNode = nullptr;
+    source._answerNode = nullptr;
     source._chatLogic = nullptr;    
     source._image = NULL;
 
@@ -172,6 +181,12 @@ void ChatBot::SetCurrentNode(GraphNode *node)
 
     // send selected node answer to user
     _chatLogic->SendMessageToUser(answer);
+}
+
+void ChatBot::SetCurrentNode(AnswerNode *answerNode) {
+    _answerNode = answerNode;
+
+    _chatLogic->SendMessageToUser(answerNode->GREETING_MSG);
 }
 
 int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)

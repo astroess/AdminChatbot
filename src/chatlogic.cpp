@@ -14,6 +14,7 @@
 #include "graphnode.h"
 #include "chatbot.h"
 #include "chatlogic.h"
+#include "answernode.h"
 
 #include "rapidjson/document.h"
  
@@ -89,36 +90,36 @@ void ChatLogic::LoadAnswersFromJsonFile(std::string filename) {
 
     IStreamWrapper answerStream {answersFile};
 
-    //See if I can put this into a pointer on the heap.
-    Document answersDoc;
+    //Put Document And data struncture on the heap.
+    std::unique_ptr<Document> answersDoc = std::make_unique<Document>();
 
-    answersDoc.ParseStream(answerStream);
-    if (answersDoc.HasParseError()) {
-        std::cout << "Error  : " << answersDoc.GetParseError()  << '\n'
-                  << "Offset : " << answersDoc.GetErrorOffset() << '\n';
+    answersDoc->ParseStream(answerStream);
+    if (answersDoc->HasParseError()) {
+        std::cout << "Error  : " << answersDoc->GetParseError()  << '\n'
+                  << "Offset : " << answersDoc->GetErrorOffset() << '\n';
         answersFile.close();
         return;
     }
 
-
-    for (auto const& p : answersDoc["data"].GetArray()) {
+    AnswerRec ar;
+    for (auto const& p : (*answersDoc)["data"].GetArray()) {
         for (auto const& in : p["keywords"].GetArray()) {
-            std::cout << in.GetString() << std::endl;
+            ar.keywords.emplace_back(in.GetString());
         }
+        ar.answer = p["answer"].GetString();
+        answerRecs->emplace_back(ar);
 
-        std::cout << p["answer"].GetString() << std::endl;
+        ar.answer = "";
+        ar.keywords.clear();
     }
 
+    std::unique_ptr<AnswerNode> answerNode = std::make_unique<AnswerNode>();
+    answerNode->SetAnswerRecs(answerRecs.get());
 
-    // //Put Json StringBuffer on Heap
-    // std::unique_ptr<StringBuffer> buffer = std::make_unique<StringBuffer>();
-
-    // Writer<StringBuffer> writer(*buffer);
-    // answersDoc->Accept(writer);
- 
-    // std::string output = buffer->GetString();
-    // std::cout << output << "\n";   
-
+    ChatBot stackChatBot = ChatBot("../images/chatbot.png");   
+    stackChatBot.SetChatLogicHandle(this);   
+    stackChatBot.SetAnswerNode(answerNode.get());
+    answerNode->MoveChatbotHere(std::move(stackChatBot));    
 }
 
 void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
@@ -273,7 +274,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     ChatBot stackChatBot = ChatBot("../images/chatbot.png");   
     stackChatBot.SetChatLogicHandle(this);   
     stackChatBot.SetRootNode(rootNode);        
-    rootNode->MoveChatbotHere(std::move(stackChatBot));
+    rootNode->MoveChatbotHere(std::move(stackChatBot));  
     ////
     //// EOF STUDENT CODE
 }

@@ -5,6 +5,12 @@
 #include <string>
 #include "chatgui.h"
 
+//Structure for answer json data.
+struct AnswerRec {
+    std::vector<std::string> keywords;
+    std::string answer;
+};
+
 // forward declarations
 class ChatBot;
 class GraphEdge;
@@ -19,6 +25,7 @@ private:
     std::vector<std::unique_ptr<GraphNode>> _nodes;  //Task 3.
     //std::vector<std::unique_ptr<GraphEdge>> _edges;
     
+    std::unique_ptr<std::vector<AnswerRec>> answerRecs = std::make_unique<std::vector<AnswerRec>>();
 
     ////
     //// EOF STUDENT CODE
