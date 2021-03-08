@@ -4,12 +4,7 @@
 #include <vector>
 #include <string>
 #include "chatgui.h"
-
-//Structure for answer json data.
-struct AnswerRec {
-    std::vector<std::string> keywords;
-    std::string answer;
-};
+#include "answernode.h"
 
 // forward declarations
 class ChatBot;
@@ -24,8 +19,8 @@ private:
     // data handles (owned)
     std::vector<std::unique_ptr<GraphNode>> _nodes;  //Task 3.
     //std::vector<std::unique_ptr<GraphEdge>> _edges;
-    
-    std::unique_ptr<std::vector<AnswerRec>> answerRecs = std::make_unique<std::vector<AnswerRec>>();
+    //std::unique_ptr<AnswerNode> _answerNode = std::make_unique<AnswerNode>();
+    std::unique_ptr<AnswerNode> _answerNode = std::make_unique<AnswerNode>();
 
     ////
     //// EOF STUDENT CODE

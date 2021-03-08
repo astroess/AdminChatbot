@@ -14,7 +14,6 @@
 #include "graphnode.h"
 #include "chatbot.h"
 #include "chatlogic.h"
-#include "answernode.h"
 
 #include "rapidjson/document.h"
  
@@ -101,25 +100,28 @@ void ChatLogic::LoadAnswersFromJsonFile(std::string filename) {
         return;
     }
 
+    //AnswerNode answerNode;
+    std::vector<AnswerRec> answerRecs;
+
     AnswerRec ar;
     for (auto const& p : (*answersDoc)["data"].GetArray()) {
         for (auto const& in : p["keywords"].GetArray()) {
             ar.keywords.emplace_back(in.GetString());
         }
         ar.answer = p["answer"].GetString();
-        answerRecs->emplace_back(ar);
+        answerRecs.emplace_back(ar);
 
         ar.answer = "";
         ar.keywords.clear();
     }
 
-    std::unique_ptr<AnswerNode> answerNode = std::make_unique<AnswerNode>();
-    answerNode->SetAnswerRecs(answerRecs.get());
+    _answerNode->SetAnswerRecs(answerRecs);
+    _answerNode->SetDisplayGreeting(true);
 
     ChatBot stackChatBot = ChatBot("../images/chatbot.png");   
     stackChatBot.SetChatLogicHandle(this);   
-    stackChatBot.SetAnswerNode(answerNode.get());
-    answerNode->MoveChatbotHere(std::move(stackChatBot));    
+    stackChatBot.SetAnswerNode(_answerNode.get());
+    _answerNode->MoveChatbotHere(std::move(stackChatBot));    
 }
 
 void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
@@ -291,7 +293,8 @@ void ChatLogic::SetChatbotHandle(ChatBot *chatbot)
 
 void ChatLogic::SendMessageToChatbot(std::string message)
 {
-    _chatBot->ReceiveMessageFromUser(message);
+    //_chatBot->ReceiveMessageFromUser(message);
+    _chatBot->ReceiveMessageFromUser2(message);
 }
 
 void ChatLogic::SendMessageToUser(std::string message)

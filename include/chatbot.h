@@ -50,7 +50,7 @@ public:
 
     // getters / setters
     void SetCurrentNode(GraphNode *node);
-    void SetCurrentNode(AnswerNode *answerNode);
+    void SetCurrentMessage();
     void SetRootNode(GraphNode *rootNode) { _rootNode = rootNode; }
     void SetAnswerNode(AnswerNode *answerNode) {_answerNode = answerNode;}
     void SetChatLogicHandle(ChatLogic *chatLogic) { _chatLogic = chatLogic; }
@@ -58,6 +58,7 @@ public:
 
     // communication
     void ReceiveMessageFromUser(std::string message);
+    void ReceiveMessageFromUser2(std::string message);
 };
 
 #endif /* CHATBOT_H_ */

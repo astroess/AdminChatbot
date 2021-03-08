@@ -192,10 +192,10 @@ ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id) : wxScro
     _chatLogic->SetPanelDialogHandle(this);
 
     // load answer graph from file
-    _chatLogic->LoadAnswerGraphFromFile(dataPath + "src/answergraph.txt");
+    //_chatLogic->LoadAnswerGraphFromFile(dataPath + "src/answergraph.txt");
 
     //Load answers from Json file.
-    //_chatLogic->LoadAnswersFromJsonFile(dataPath + "data/answers.json");
+    _chatLogic->LoadAnswersFromJsonFile(dataPath + "data/answers.json");
     ////
     //// EOF STUDENT CODE
 }

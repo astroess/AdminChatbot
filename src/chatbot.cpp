@@ -168,6 +168,39 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
     _currentNode->MoveChatbotToNewNode(newNode);
 }
 
+void ChatBot::ReceiveMessageFromUser2(std::string message) {
+    typedef std::pair<std::string, int> AnswerPair;
+    std::vector<AnswerPair> answerPairValues;
+    
+    for (AnswerRec ar : _answerNode->GetAnswerRecs()) {
+        for (std::string keyword : ar.keywords) {
+            AnswerPair ap{ar.answer, ComputeLevenshteinDistance(keyword, message)};
+            answerPairValues.emplace_back(ap);
+        }
+    }
+
+    std::sort(answerPairValues.begin(), answerPairValues.end(), [](const AnswerPair &a, const AnswerPair &b) { return a.second < b.second; });
+    
+    //Add a Random element if the there is more than one lowest value.
+    int tempVal = answerPairValues.at(0).second;
+    int icount;
+    for (icount=0; icount < answerPairValues.size(); icount++) {
+        AnswerPair tmpPair = answerPairValues.at(icount);
+        if (!tempVal == tmpPair.second) {
+            break;
+        }
+    }
+
+    if (icount == 1) {
+        _chatLogic->SendMessageToUser(answerPairValues.at(0).first);
+    }
+    else {
+        //Randomize.
+    }
+    
+    answerPairValues.clear();
+}
+
 void ChatBot::SetCurrentNode(GraphNode *node)
 {
     // update pointer to current node
@@ -183,10 +216,16 @@ void ChatBot::SetCurrentNode(GraphNode *node)
     _chatLogic->SendMessageToUser(answer);
 }
 
-void ChatBot::SetCurrentNode(AnswerNode *answerNode) {
-    _answerNode = answerNode;
+void ChatBot::SetCurrentMessage() {
+    
+    if (_answerNode->IsDisplayGreeting()) {
+        _chatLogic->SendMessageToUser(_answerNode->GREETING_MSG);
+        _answerNode->SetDisplayGreeting(false);
+    }
+    else {
 
-    _chatLogic->SendMessageToUser(answerNode->GREETING_MSG);
+        _chatLogic->SendMessageToUser("");
+    }
 }
 
 int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)
