@@ -3,6 +3,7 @@
 //(*InternalHeaders(Answers)
 #include <wx/intl.h>
 #include <wx/string.h>
+#include <wx/wx.h>
 //*)
 
 //(*IdInit(Answers)
@@ -26,18 +27,18 @@ Answers::Answers(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize&
 	Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxCAPTION|wxCLOSE_BOX|wxMINIMIZE_BOX, _T("id"));
 	Move(wxDefaultPosition);
 	dialogGridBagSizer = new wxGridBagSizer(1, 1);
-	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("Keywords / Short Phrases\n(separated by a commas):"), wxDefaultPosition, wxSize(186,46), 0, _T("ID_STATICTEXT1"));
-	dialogGridBagSizer->Add(StaticText1, wxGBPosition(0, 0), wxDefaultSpan, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	keyTextCtrl = new wxTextCtrl(this, ID_TEXTCTRL1, wxEmptyString, wxDefaultPosition, wxSize(205,83), wxTE_MULTILINE, wxDefaultValidator, _T("ID_TEXTCTRL1"));
-	dialogGridBagSizer->Add(keyTextCtrl, wxGBPosition(0, 1), wxDefaultSpan, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-	StaticText2 = new wxStaticText(this, ID_STATICTEXT2, _("Answer:"), wxDefaultPosition, wxSize(110,17), 0, _T("ID_STATICTEXT2"));
-	dialogGridBagSizer->Add(StaticText2, wxGBPosition(1, 0), wxDefaultSpan, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	answerTextCtrl = new wxTextCtrl(this, ID_TEXTCTRL2, wxEmptyString, wxDefaultPosition, wxSize(345,107), wxTE_MULTILINE, wxDefaultValidator, _T("ID_TEXTCTRL2"));
-	dialogGridBagSizer->Add(answerTextCtrl, wxGBPosition(2, 0), wxGBSpan(1, 2), wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	//StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("Keywords / Short Phrases\n(separated by a commas):"), wxDefaultPosition, wxSize(186,46), 0, _T("ID_STATICTEXT1"));
+	//dialogGridBagSizer->Add(StaticText1, wxGBPosition(0, 0), wxDefaultSpan, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
+	//keyTextCtrl = new wxTextCtrl(this, ID_TEXTCTRL1, wxEmptyString, wxDefaultPosition, wxSize(205,83), wxTE_MULTILINE, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+	//dialogGridBagSizer->Add(keyTextCtrl, wxGBPosition(0, 1), wxDefaultSpan, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	StaticText2 = new wxStaticText(this, ID_STATICTEXT2, _("Records to Modify:"), wxDefaultPosition, wxSize(160,17), 0, _T("ID_STATICTEXT2"));
+	dialogGridBagSizer->Add(StaticText2, wxGBPosition(0, 1), wxDefaultSpan, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
+	answerTextCtrl = new wxTextCtrl(this, ID_TEXTCTRL2, wxEmptyString, wxDefaultPosition, wxSize(500,250), wxTE_MULTILINE|wxTE_DONTWRAP|wxVSCROLL|wxHSCROLL, wxDefaultValidator, _T("ID_TEXTCTRL2"));
+	dialogGridBagSizer->Add(answerTextCtrl, wxGBPosition(1, 0), wxGBSpan(1, 3), wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	cancelButton = new wxButton(this, ID_BUTTON1, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
-	dialogGridBagSizer->Add(cancelButton, wxGBPosition(3, 0), wxDefaultSpan, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	dialogGridBagSizer->Add(cancelButton, wxGBPosition(2, 0), wxDefaultSpan, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	saveButton = new wxButton(this, ID_BUTTON2, _("Save"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
-	dialogGridBagSizer->Add(saveButton, wxGBPosition(3, 1), wxDefaultSpan, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	dialogGridBagSizer->Add(saveButton, wxGBPosition(2, 2), wxDefaultSpan, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
 	SetSizer(dialogGridBagSizer);
 	dialogGridBagSizer->Fit(this);
 	dialogGridBagSizer->SetSizeHints(this);
@@ -63,4 +64,7 @@ void Answers::OncancelButtonClick(wxCommandEvent& event) {
 }
 
 void Answers::OnsaveButtonClick(wxCommandEvent& event) {
+	wxMessageBox( wxT("This is the message for OnAddAnswerClick"), 
+          wxT("This is the title OnAddAnswerClick"), wxICON_INFORMATION);
+
 }

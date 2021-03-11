@@ -5,19 +5,13 @@
 #include <iterator>
 #include <tuple>
 #include <algorithm>
-#include "rapidjson/document.h"
-#include <rapidjson/istreamwrapper.h>
-#include "rapidjson/stringbuffer.h"
-#include <rapidjson/writer.h>
 
 #include "graphedge.h"
 #include "graphnode.h"
 #include "chatbot.h"
 #include "chatlogic.h"
+#include "adminutility.h"
 
-#include "rapidjson/document.h"
- 
-using namespace rapidjson;
 ChatLogic::ChatLogic()
 {
     //// STUDENT CODE
@@ -80,40 +74,8 @@ void ChatLogic::AddAllTokensToElement(std::string tokenID, tokenlist &tokens, T 
 }
 
 void ChatLogic::LoadAnswersFromJsonFile(std::string filename) {
-    std::ifstream answersFile(filename, std::fstream::in);
-    
-    if (!answersFile.is_open()) {
-        std::cerr << "Could not open file for reading!\n";
-        return;
-    }
-
-    IStreamWrapper answerStream {answersFile};
-
-    //Put Document And data struncture on the heap.
-    std::unique_ptr<Document> answersDoc = std::make_unique<Document>();
-
-    answersDoc->ParseStream(answerStream);
-    if (answersDoc->HasParseError()) {
-        std::cout << "Error  : " << answersDoc->GetParseError()  << '\n'
-                  << "Offset : " << answersDoc->GetErrorOffset() << '\n';
-        answersFile.close();
-        return;
-    }
-
-    //AnswerNode answerNode;
-    std::vector<AnswerRec> answerRecs;
-
-    AnswerRec ar;
-    for (auto const& p : (*answersDoc)["data"].GetArray()) {
-        for (auto const& in : p["keywords"].GetArray()) {
-            ar.keywords.emplace_back(in.GetString());
-        }
-        ar.answer = p["answer"].GetString();
-        answerRecs.emplace_back(ar);
-
-        ar.answer = "";
-        ar.keywords.clear();
-    }
+    AdminUtility au;
+    std::vector<AnswerRec> answerRecs = au.GetAnswerRecsFromFile(filename);
 
     _answerNode->SetAnswerRecs(answerRecs);
     _answerNode->SetDisplayGreeting(true);

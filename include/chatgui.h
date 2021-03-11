@@ -20,7 +20,7 @@ private:
 
     ////
     //// EOF STUDENT CODE
-
+    
 public:
     // constructor / destructor
     ChatBotPanelDialog(wxWindow *parent, wxWindowID id);
@@ -82,6 +82,7 @@ private:
     void OnAdminLoginClick(wxCommandEvent& event);
     void OnAddAnswerClick(wxCommandEvent& event);
     void OntopPanelKeyDown(wxKeyEvent& event);
+    void AuthenticateAdmin();
 
 public:
     // constructor / desctructor

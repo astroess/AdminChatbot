@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <answernode.h>
 
 class AdminUtility {
     public:
@@ -18,6 +19,8 @@ class AdminUtility {
         std::string encrypt(std::string msg);
         std::string decrypt(std::string msg);
         bool isAthenticated(std::string &user, std::string &pass);
+        int GetRandomizedNumBetween(int first, int second);
+        std::vector<AnswerRec> GetAnswerRecsFromFile(std::string filename);
 
     private: 
         bool isOnlyASCIIAndNotSpace(const std::string &strval);

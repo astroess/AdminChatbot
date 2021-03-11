@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "chatbot.h"
+
 //Structure for answer json data.
 struct AnswerRec {
     std::vector<std::string> keywords;

@@ -69,7 +69,7 @@ ChatBotFrame::ChatBotFrame(const wxString &title) :
     _passTextCtrl = new wxTextCtrl(_topPanel, ID_PASSTEXTCTRL, wxEmptyString, wxDefaultPosition, wxSize(96,34), wxTE_PASSWORD|wxTAB_TRAVERSAL, wxDefaultValidator, _T("ID_PASSTEXTCTRL"));
     _topSizer->Add(_passTextCtrl, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 
-    _addAnswerButton = new wxButton(_topPanel, ID_ADDANSWERBUTTON, _("Add Answer"), wxDefaultPosition, wxSize(110,34), 0, wxDefaultValidator, _T("ID_ADDANSWERBUTTON"));
+    _addAnswerButton = new wxButton(_topPanel, ID_ADDANSWERBUTTON, _("Modify Data"), wxDefaultPosition, wxSize(110,34), 0, wxDefaultValidator, _T("ID_ADDANSWERBUTTON"));
     _addAnswerButton->SetFont(font);
     _addAnswerButton->Disable();
     _topSizer->Add(_addAnswerButton, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
@@ -98,6 +98,10 @@ ChatBotFrame::ChatBotFrame(const wxString &title) :
 }
 
 void ChatBotFrame::OnAdminLoginClick(wxCommandEvent& event) {
+    this->AuthenticateAdmin();
+}
+
+void ChatBotFrame::AuthenticateAdmin() {
     AdminUtility au;
     std::string userSend = std::string(_textCtrlUser->GetValue().mb_str());
     std::string passSend = std::string(_passTextCtrl->GetValue().mb_str());
@@ -128,6 +132,7 @@ void ChatBotFrame::OnAdminLoginClick(wxCommandEvent& event) {
 
     _passTextCtrl->SetValue("");
     _textCtrlUser->SetValue("");
+
 }
 
 void ChatBotFrame::OntopPanelKeyDown(wxKeyEvent& event) {
@@ -138,14 +143,17 @@ void ChatBotFrame::OntopPanelKeyDown(wxKeyEvent& event) {
     else if (keycode == 9 && _passTextCtrl->HasFocus()) {
         _adminLogin->SetFocus();
     }
+    else if (keycode == 13 && _passTextCtrl->HasFocus()) {
+        this->AuthenticateAdmin();
+    }
     else {
         event.Skip();
     }
 }
 
 void ChatBotFrame::OnAddAnswerClick(wxCommandEvent& event) {
-    // wxMessageBox( wxT("This is the message for OnAddAnswerClick"), 
-    //     wxT("This is the title OnAddAnswerClick"), wxICON_INFORMATION);
+     //wxMessageBox( wxT("This is the message for OnAddAnswerClick"), 
+     //    wxT("This is the title OnAddAnswerClick"), wxICON_INFORMATION);
     
     Answers aDialog(NULL);
     aDialog.ShowModal();
@@ -279,3 +287,4 @@ ChatBotPanelDialogItem::ChatBotPanelDialogItem(wxPanel *parent, wxString text, b
     // set background color
     this->SetBackgroundColour((isFromUser == true ? wxT("YELLOW") : wxT("BLUE")));
 }
+

@@ -8,6 +8,7 @@
 #include "graphedge.h"
 #include "chatbot.h"
 #include "answernode.h"
+#include "adminutility.h"
 
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
@@ -186,7 +187,7 @@ void ChatBot::ReceiveMessageFromUser2(std::string message) {
     int icount;
     for (icount=0; icount < answerPairValues.size(); icount++) {
         AnswerPair tmpPair = answerPairValues.at(icount);
-        if (!tempVal == tmpPair.second) {
+        if (tempVal < tmpPair.second) {
             break;
         }
     }
@@ -196,6 +197,8 @@ void ChatBot::ReceiveMessageFromUser2(std::string message) {
     }
     else {
         //Randomize.
+        AdminUtility au;
+        _chatLogic->SendMessageToUser(answerPairValues.at(au.GetRandomizedNumBetween(0, icount - 1)).first);
     }
     
     answerPairValues.clear();

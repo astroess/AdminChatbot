@@ -19,10 +19,10 @@ class Answers: public wxDialog
 		//(*Declarations(Answers)
 		wxButton* cancelButton;
 		wxButton* saveButton;
-		wxStaticText* StaticText1;
+		//wxStaticText* StaticText1;
 		wxStaticText* StaticText2;
 		wxTextCtrl* answerTextCtrl;
-		wxTextCtrl* keyTextCtrl;
+		//wxTextCtrl* keyTextCtrl;
 		//*)
 
 	protected:
