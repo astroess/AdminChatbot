@@ -117,23 +117,33 @@ void processAddAdminUser(std::vector<string> *pdata, AdminUtility *au) {
     string uname, pass, qvar;
     string navigate = "";
     bool continueAddLoop;
-    cout << "Remember your credentials for later use.\n";
-
+    cout << "Remember your credentials for later use. \n";
+    cout << "Type \"Q\" (uppercase) to back out.\n\n";
     do {
         continueAddLoop = false;
         cout << "User Name (between 8 and 12 ASCII characters, no spaces): ";
         getline(cin >> std::ws, uname);
+        
+        if (uname.compare("Q") == 0) {
+            navigate = "out";
+            break;
+        }
 
         cout << "Password (between 8 and 12 ASCII characters, no spaces): ";
         getline(cin >> std::ws, pass);
 
+        if (pass.compare("Q") == 0) {
+            navigate = "out";
+            break;
+        }
+
         if (!au->isUserPassValid(uname, pass, pdata)) {
             cout << "Either the user name or password did not pass validation.\n";
             cout << "Please enter correct number to continue.\n";
-            cout << "0. Back to main menu.\n";
+            cout << "Q. Back to main menu.\n";
             cout << "1. Try adding credentials again.\n";
             cin >> navigate;
-            if (!navigate.compare("0") == 0) {
+            if (navigate.compare("Q") != 0 && navigate.compare("q") != 0) {
                 navigate = "";
                 continueAddLoop = true;
             }

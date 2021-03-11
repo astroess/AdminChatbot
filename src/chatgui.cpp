@@ -48,7 +48,8 @@ ChatBotFrame::ChatBotFrame(const wxString &title) :
     
     // create controls and assign them to control panel
     _panelDialog = new ChatBotPanelDialog(ctrlPanel, wxID_ANY);
-    
+    this->SetChatLogic(_panelDialog->GetChatLogic());
+
     _topPanel = new wxPanel(ctrlPanel, wxID_ANY);
     _topPanel->SetBackgroundColour(wxColour(192, 192, 192));
     _topSizer = new wxGridSizer(2, 3, 1, 0);
@@ -152,12 +153,12 @@ void ChatBotFrame::OntopPanelKeyDown(wxKeyEvent& event) {
 }
 
 void ChatBotFrame::OnAddAnswerClick(wxCommandEvent& event) {
-     //wxMessageBox( wxT("This is the message for OnAddAnswerClick"), 
-     //    wxT("This is the title OnAddAnswerClick"), wxICON_INFORMATION);
-    
     Answers aDialog(NULL);
-    aDialog.ShowModal();
-       
+    ChatLogic *chatLogic = this->GetChatLogic();
+    AnswerNode *an = chatLogic->GetAnswerNode();
+
+    aDialog.answerTextCtrl->SetValue("hello");
+    aDialog.ShowModal();       
 }
 
 void ChatBotFrame::OnEnter(wxCommandEvent &WXUNUSED(event))
@@ -204,6 +205,7 @@ ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id) : wxScro
 
     //Load answers from Json file.
     _chatLogic->LoadAnswersFromJsonFile(dataPath + "data/answers.json");
+    
     ////
     //// EOF STUDENT CODE
 }

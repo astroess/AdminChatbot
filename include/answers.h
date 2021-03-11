@@ -7,6 +7,7 @@
 #include <wx/gbsizer.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
+#include "answernode.h"
 //*)
 
 class Answers: public wxDialog
@@ -37,7 +38,6 @@ class Answers: public wxDialog
 		//*)
 
 	private:
-
 		//(*Handlers(Answers)
 		void OnClose(wxCloseEvent& event);
 		void OncancelButtonClick(wxCommandEvent& event);

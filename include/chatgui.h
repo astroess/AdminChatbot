@@ -37,7 +37,8 @@ public:
     // proprietary functions
     void AddDialogItem(wxString text, bool isFromUser = true);
     void PrintChatbotResponse(std::string response);
-
+    ChatLogic* GetChatLogic() {return _chatLogic.get();}
+    
     DECLARE_EVENT_TABLE()
 };
 
@@ -56,6 +57,8 @@ public:
 // frame containing all control elements
 class ChatBotFrame : public wxFrame {
 private:
+    ChatLogic *_chatLogic;
+
     static const long ID_STATICTEXT1;
     static const long ID_USERCTRL1;
     static const long ID_ADMINLOGIN;
@@ -87,6 +90,8 @@ private:
 public:
     // constructor / desctructor
     ChatBotFrame(const wxString &title);
+    ChatLogic* GetChatLogic() {return _chatLogic;}
+    void SetChatLogic(ChatLogic *chatLogic) {_chatLogic = chatLogic;}
 };
 
 // control panel for background image display

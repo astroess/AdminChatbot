@@ -29,7 +29,7 @@ private:
     GraphNode *_currentNode;
     ChatBot *_chatBot;
     ChatBotPanelDialog *_panelDialog;
-
+    
     // proprietary type definitions
     typedef std::vector<std::pair<std::string, std::string>> tokenlist;
 
@@ -51,6 +51,7 @@ public:
     void LoadAnswersFromJsonFile(std::string filename);
     void SendMessageToChatbot(std::string message);
     void SendMessageToUser(std::string message);
+    AnswerNode* GetAnswerNode() {return _answerNode.get();}
     wxBitmap *GetImageFromChatbot();
 };
 

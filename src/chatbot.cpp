@@ -172,7 +172,7 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
 void ChatBot::ReceiveMessageFromUser2(std::string message) {
     typedef std::pair<std::string, int> AnswerPair;
     std::vector<AnswerPair> answerPairValues;
-    
+
     for (AnswerRec ar : _answerNode->GetAnswerRecs()) {
         for (std::string keyword : ar.keywords) {
             AnswerPair ap{ar.answer, ComputeLevenshteinDistance(keyword, message)};

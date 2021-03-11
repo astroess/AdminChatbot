@@ -47,6 +47,10 @@ Answers::Answers(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize&
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&Answers::OnsaveButtonClick);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&Answers::OnClose);
 	//*)
+
+	// std::string testme = "hello this is a string\nWhat's going on \"with\" this.";
+	// answerTextCtrl->SetValue(testme);
+	
 }
 
 Answers::~Answers() {
