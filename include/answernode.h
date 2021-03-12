@@ -20,12 +20,15 @@ class AnswerNode {
         bool IsDisplayGreeting() {return _displayGreeting;}
         void SetCurrentAnswerRec(AnswerRec currentAnswerRec) {_currentAnswerRec = currentAnswerRec;}
         AnswerRec GetCurrentAnswerRec() {return _currentAnswerRec; }
+        void SetRawJsonData(std::string jsonData) {_jsonData = jsonData;}
+        std::string GetRawJsonData() {return _jsonData;}
 
     private:
         std::vector<AnswerRec> _answerRecs;
         ChatBot _chatBot;
         AnswerRec _currentAnswerRec;
         bool _displayGreeting;
+        std::string _jsonData;
 };
 
 

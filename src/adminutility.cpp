@@ -7,6 +7,7 @@
 #include <rapidjson/istreamwrapper.h>
 #include "rapidjson/stringbuffer.h"
 #include <rapidjson/writer.h>
+#include <rapidjson/prettywriter.h>
 
 #include "adminutility.h"
 
@@ -153,5 +154,15 @@ std::vector<AnswerRec> AdminUtility::GetAnswerRecsFromFile(std::string filename)
         ar.keywords.clear();
     }
 
+    //Add raw data field to class.
+    StringBuffer buffer;
+    PrettyWriter<StringBuffer> writer(buffer);
+    answersDoc->Accept(writer);
+    _jsonData->append(buffer.GetString());
+    
     return answerRecs;
+}
+
+std::string* AdminUtility::GetJsonFromAnswerRecs() {
+    return _jsonData.get();
 }

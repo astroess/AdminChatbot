@@ -156,13 +156,12 @@ void ChatBotFrame::OnAddAnswerClick(wxCommandEvent& event) {
     Answers aDialog(NULL);
     ChatLogic *chatLogic = this->GetChatLogic();
     AnswerNode *an = chatLogic->GetAnswerNode();
-
-    aDialog.answerTextCtrl->SetValue("hello");
+    aDialog.SetAnswerNode(an);
+    aDialog.answerTextCtrl->SetValue(an->GetRawJsonData().c_str());
     aDialog.ShowModal();       
 }
 
-void ChatBotFrame::OnEnter(wxCommandEvent &WXUNUSED(event))
-{
+void ChatBotFrame::OnEnter(wxCommandEvent &WXUNUSED(event)) {
     // retrieve text from text control
     wxString userText = _userTextCtrl->GetLineText(0);
 

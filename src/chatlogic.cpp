@@ -78,6 +78,7 @@ void ChatLogic::LoadAnswersFromJsonFile(std::string filename) {
     std::vector<AnswerRec> answerRecs = au.GetAnswerRecsFromFile(filename);
 
     _answerNode->SetAnswerRecs(answerRecs);
+    _answerNode->SetRawJsonData(*au.GetJsonFromAnswerRecs());
     _answerNode->SetDisplayGreeting(true);
 
     ChatBot stackChatBot = ChatBot("../images/chatbot.png");   

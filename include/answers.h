@@ -25,7 +25,8 @@ class Answers: public wxDialog
 		wxTextCtrl* answerTextCtrl;
 		//wxTextCtrl* keyTextCtrl;
 		//*)
-
+		void SetAnswerNode(AnswerNode *answerNode) {_answerNode = answerNode;}
+		
 	protected:
 
 		//(*Identifiers(Answers)
@@ -38,6 +39,7 @@ class Answers: public wxDialog
 		//*)
 
 	private:
+		AnswerNode *_answerNode;
 		//(*Handlers(Answers)
 		void OnClose(wxCloseEvent& event);
 		void OncancelButtonClick(wxCommandEvent& event);

@@ -8,6 +8,8 @@
 
 class AdminUtility {
     public:
+        std::unique_ptr<std::string> _jsonData = std::make_unique<std::string>();
+
         const std::string userAdminFile{"../data/adminusers.txt"};
         const std::string userAdminFilePathLock{"../data/adminusers.lock"};
 
@@ -21,6 +23,8 @@ class AdminUtility {
         bool isAthenticated(std::string &user, std::string &pass);
         int GetRandomizedNumBetween(int first, int second);
         std::vector<AnswerRec> GetAnswerRecsFromFile(std::string filename);
+        std::string* GetJsonFromAnswerRecs();
+        bool IsJsonValid(std::string json);
 
     private: 
         bool isOnlyASCIIAndNotSpace(const std::string &strval);
