@@ -1,7 +1,8 @@
 #ifndef ANSWERNODE_H_
 #define ANSWERNODE_H_
 
-#include <filesystem>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <vector>
 #include "chatbot.h"
 
@@ -23,6 +24,8 @@ class AnswerNode {
         AnswerRec GetCurrentAnswerRec() {return _currentAnswerRec; }
         void SetRawJsonData(std::string jsonData) {_jsonData = jsonData;}
         std::string GetRawJsonData() {return _jsonData;}
+        bool CheckAndUpdateFileJson(std::string filename);
+        int GetCurrentJsonFileDate() {return _fileDate;}
 
     private:
         std::vector<AnswerRec> _answerRecs;
@@ -30,6 +33,7 @@ class AnswerNode {
         AnswerRec _currentAnswerRec;
         bool _displayGreeting;
         std::string _jsonData;
+        int _fileDate;
 };
 
 

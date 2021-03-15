@@ -80,6 +80,9 @@ void ChatLogic::LoadAnswersFromJsonFile(std::string filename) {
     _answerNode->SetAnswerRecs(answerRecs);
     _answerNode->SetRawJsonData(*au.GetJsonFromAnswerRecs());
     _answerNode->SetDisplayGreeting(true);
+    
+    bool checkme =_answerNode->CheckAndUpdateFileJson(filename);
+    std::cout << _answerNode->GetCurrentJsonFileDate() << "\n";
 
     ChatBot stackChatBot = ChatBot("../images/chatbot.png");   
     stackChatBot.SetChatLogicHandle(this);   
