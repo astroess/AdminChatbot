@@ -2,7 +2,6 @@
 #include <vector>
 #include <fstream>
 #include <random>
-#include <memory>
 #include "rapidjson/document.h"
 #include <rapidjson/istreamwrapper.h>
 #include "rapidjson/stringbuffer.h"
@@ -158,11 +157,35 @@ std::vector<AnswerRec> AdminUtility::GetAnswerRecsFromFile(std::string filename)
     StringBuffer buffer;
     PrettyWriter<StringBuffer> writer(buffer);
     answersDoc->Accept(writer);
-    _jsonData->append(buffer.GetString());
-    
+    *_jsonData = buffer.GetString();
+
     return answerRecs;
 }
 
 std::string* AdminUtility::GetJsonFromAnswerRecs() {
     return _jsonData.get();
+}
+
+bool AdminUtility::IsJsonValid(std::string json) {
+    Document jsonDoc;
+
+    jsonDoc.Parse(json.c_str());
+    if (jsonDoc.HasParseError()) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+bool AdminUtility::WriteJsonToFile(std::string jsonData) {
+    
+    std::ofstream dfile(dataPath + "data/answers.json");
+    if (dfile.is_open()) {
+        dfile << jsonData;
+        return true;
+    }
+    else {
+        return false;
+    }
 }

@@ -60,14 +60,30 @@ void Answers::OncancelButtonClick(wxCommandEvent& event) {
 }
 
 void Answers::OnsaveButtonClick(wxCommandEvent& event) {
- 	// wxMessageBox(answerTextCtrl->GetValue(), 
-    //        wxT("This is the title OnAddAnswerClick"), wxICON_INFORMATION);
-	
+	AdminUtility au;
+
 	//1) Check for Json validity.  Call the adminutility.
-
 	//2) If valid, write fresh to the answers.json file.
-
 	//3) Msgbox that says success or failure.
-
 	//4) close window.
+	if (au.IsJsonValid(answerTextCtrl->GetValue().ToStdString())) {
+		std::cout << "It is valid json.\n"; 
+
+		if (au.WriteJsonToFile(answerTextCtrl->GetValue().ToStdString())) {
+			wxMessageBox("Changes were successfully saved.", 
+            wxT("Successfully Saved"), wxICON_INFORMATION);
+
+			Destroy();
+		}
+		else {
+			wxMessageBox("There was a problem saving the file.", 
+            wxT("Not Saved."), wxICON_INFORMATION);
+		}
+	}
+	else {
+ 		wxMessageBox("Sorry, Changes were not saved.  This is not valid JSON.", 
+            wxT("Invalid Json"), wxICON_INFORMATION);
+	}
+
+
 }

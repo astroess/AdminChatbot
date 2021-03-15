@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <memory>
 #include <answernode.h>
 
 class AdminUtility {
@@ -12,6 +13,8 @@ class AdminUtility {
 
         const std::string userAdminFile{"../data/adminusers.txt"};
         const std::string userAdminFilePathLock{"../data/adminusers.lock"};
+        const std::string dataPath = "../";
+        const std::string imgBasePath = dataPath + "images/";
 
         //For debugging purposes
         //const std::string userAdminFilePathLock{"./data/adminusers.lock"};
@@ -25,6 +28,7 @@ class AdminUtility {
         std::vector<AnswerRec> GetAnswerRecsFromFile(std::string filename);
         std::string* GetJsonFromAnswerRecs();
         bool IsJsonValid(std::string json);
+        bool WriteJsonToFile(std::string filename);
 
     private: 
         bool isOnlyASCIIAndNotSpace(const std::string &strval);
