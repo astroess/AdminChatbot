@@ -5,7 +5,6 @@
 #include <sys/stat.h>
 #include <vector>
 #include <string>
-#include <atomic>
 #include "chatgui.h"
 #include "answernode.h"
 
@@ -17,8 +16,8 @@ class GraphNode;
 class ChatLogic {
 private:
     std::unique_ptr<AnswerNode> _answerNode = std::make_unique<AnswerNode>();
-    std::atomic_bool _running = false; // set to stop thread
-    std::atomic_bool _closed = false; // set by thread to indicate it ended
+    bool _running = false; // set to stop thread
+    bool _closed = false; // set by thread to indicate it ended
 
     // data handles (not owned)
     ChatBot *_chatBot;
