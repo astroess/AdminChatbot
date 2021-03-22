@@ -1,10 +1,9 @@
 #ifndef ANSWERNODE_H_
 #define ANSWERNODE_H_
 
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <vector>
 #include "chatbot.h"
+#include "adminutility.h"
 
 //Structure for answer json data.
 struct AnswerRec {
@@ -26,6 +25,8 @@ class AnswerNode {
         std::string GetRawJsonData() {return _jsonData;}
         bool CheckAndUpdateFileJson(std::string filename);
         int GetCurrentJsonFileDate() {return _fileDate;}
+        int GetFileDate() {return _fileDate;}
+        void SetFileDate(int fileDate) {_fileDate = fileDate;}
 
     private:
         std::vector<AnswerRec> _answerRecs;

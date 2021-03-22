@@ -1,4 +1,5 @@
 #include <iostream>
+#include <thread>
 #include "answernode.h"
 #include "chatbot.h"
 
@@ -14,12 +15,11 @@ bool AnswerNode::CheckAndUpdateFileJson(std::string filename) {
     int ierr = stat (filename.c_str(), &st);
 
     if (ierr != 0) {
-        std::cout << "error";
+        std::cerr << "Error with Json Data File.";
         return false;
     }
     else {
         _fileDate = st.st_mtime;
-
         return true;
     }
 }

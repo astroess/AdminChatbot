@@ -1,8 +1,11 @@
 #ifndef CHATLOGIC_H_
 #define CHATLOGIC_H_
 
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <vector>
 #include <string>
+#include <atomic>
 #include "chatgui.h"
 #include "answernode.h"
 
@@ -13,20 +16,11 @@ class GraphNode;
 
 class ChatLogic {
 private:
-    //// STUDENT CODE
-    ////
-
-    // data handles (owned)
-    std::vector<std::unique_ptr<GraphNode>> _nodes;  //Task 3.
-    //std::vector<std::unique_ptr<GraphEdge>> _edges;
-    //std::unique_ptr<AnswerNode> _answerNode = std::make_unique<AnswerNode>();
     std::unique_ptr<AnswerNode> _answerNode = std::make_unique<AnswerNode>();
-
-    ////
-    //// EOF STUDENT CODE
+    std::atomic_bool _running = false; // set to stop thread
+    std::atomic_bool _closed = false; // set by thread to indicate it ended
 
     // data handles (not owned)
-    GraphNode *_currentNode;
     ChatBot *_chatBot;
     ChatBotPanelDialog *_panelDialog;
     
@@ -49,6 +43,7 @@ public:
     // proprietary functions
     void LoadAnswerGraphFromFile(std::string filename);  //Old
     void LoadAnswersFromJsonFile(std::string filename);
+    void RunDataSynchronization(std::string filename);
     void SendMessageToChatbot(std::string message);
     void SendMessageToUser(std::string message);
     AnswerNode* GetAnswerNode() {return _answerNode.get();}

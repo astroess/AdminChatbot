@@ -5,7 +5,9 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include <answernode.h>
+#include "answernode.h"
+
+struct AnswerRec;
 
 class AdminUtility {
     public:

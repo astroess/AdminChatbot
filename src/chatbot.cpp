@@ -4,8 +4,6 @@
 #include <ctime>
 
 #include "chatlogic.h"
-#include "graphnode.h"
-#include "graphedge.h"
 #include "chatbot.h"
 #include "answernode.h"
 #include "adminutility.h"
@@ -135,40 +133,6 @@ ChatBot &ChatBot::operator=(ChatBot &&source)
 ////
 //// EOF STUDENT CODE
 
-void ChatBot::ReceiveMessageFromUser(std::string message)
-{
-    // loop over all edges and keywords and compute Levenshtein distance to query
-    typedef std::pair<GraphEdge *, int> EdgeDist;
-    std::vector<EdgeDist> levDists; // format is <ptr,levDist>
-
-    for (size_t i = 0; i < _currentNode->GetNumberOfChildEdges(); ++i)
-    {
-        GraphEdge *edge = _currentNode->GetChildEdgeAtIndex(i);
-        for (auto keyword : edge->GetKeywords())
-        {
-            EdgeDist ed{edge, ComputeLevenshteinDistance(keyword, message)};
-            levDists.push_back(ed);
-        }
-    }
-
-    // select best fitting edge to proceed along
-    GraphNode *newNode;
-    if (levDists.size() > 0)
-    {
-        // sort in ascending order of Levenshtein distance (best fit is at the top)
-        std::sort(levDists.begin(), levDists.end(), [](const EdgeDist &a, const EdgeDist &b) { return a.second < b.second; });
-        newNode = levDists.at(0).first->GetChildNode(); // after sorting the best edge is at first position
-    }
-    else
-    {
-        // go back to root node
-        newNode = _rootNode;
-    }
-
-    // tell current node to move chatbot to new node
-    _currentNode->MoveChatbotToNewNode(newNode);
-}
-
 void ChatBot::ReceiveMessageFromUser2(std::string message) {
     typedef std::pair<std::string, int> AnswerPair;
     std::vector<AnswerPair> answerPairValues;
@@ -202,21 +166,6 @@ void ChatBot::ReceiveMessageFromUser2(std::string message) {
     }
     
     answerPairValues.clear();
-}
-
-void ChatBot::SetCurrentNode(GraphNode *node)
-{
-    // update pointer to current node
-    _currentNode = node;
-
-    // select a random node answer (if several answers should exist)
-    std::vector<std::string> answers = _currentNode->GetAnswers();
-    std::mt19937 generator(int(std::time(0)));
-    std::uniform_int_distribution<int> dis(0, answers.size() - 1);
-    std::string answer = answers.at(dis(generator));
-
-    // send selected node answer to user
-    _chatLogic->SendMessageToUser(answer);
 }
 
 void ChatBot::SetCurrentMessage() {
