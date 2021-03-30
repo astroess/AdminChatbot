@@ -2,9 +2,9 @@
 #include <vector>
 #include <fstream>
 #include <random>
-#include "rapidjson/document.h"
+#include <rapidjson/document.h>
 #include <rapidjson/istreamwrapper.h>
-#include "rapidjson/stringbuffer.h"
+#include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 #include <rapidjson/prettywriter.h>
 
@@ -86,7 +86,8 @@ string AdminUtility::decrypt(string msg) {
 }
 
 /**
- *
+ * Checks the adminusers.txt file to see if the user can authenticate.
+ * If the users doesn't exist, false is returned.
  */  
 bool AdminUtility::isAthenticated(std::string &user, std::string &pass) {
     bool isAuth = false;
@@ -110,7 +111,7 @@ bool AdminUtility::isAthenticated(std::string &user, std::string &pass) {
 }
 
 /**
- * 
+ * Calculates random number between to ints.
  */ 
 int AdminUtility::GetRandomizedNumBetween(int first, int second) {
     std::random_device rd;  
@@ -121,6 +122,10 @@ int AdminUtility::GetRandomizedNumBetween(int first, int second) {
 
 }
 
+/**
+ * Loads the answer records from the answers.json file and returns a Vector
+ * of AnswerRec stuctures.
+ */
 std::vector<AnswerRec> AdminUtility::GetAnswerRecsFromFile(std::string filename) {
     std::ifstream answersFile(filename, std::fstream::in);
     std::vector<AnswerRec> answerRecs;
@@ -162,10 +167,16 @@ std::vector<AnswerRec> AdminUtility::GetAnswerRecsFromFile(std::string filename)
     return answerRecs;
 }
 
+/**
+ * Return the AnswerRecs as a Json data string pointer.  
+ */
 std::string* AdminUtility::GetJsonFromAnswerRecs() {
     return _jsonData.get();
 }
 
+/**
+ * Method/function to determine if a Json string is valid.
+ */
 bool AdminUtility::IsJsonValid(std::string json) {
     Document jsonDoc;
 
@@ -178,6 +189,10 @@ bool AdminUtility::IsJsonValid(std::string json) {
     }
 }
 
+/**
+ * Method/function to write data to the answers.json file.  This method gets
+ * called when there is a change in the json data in memory.
+ */
 bool AdminUtility::WriteJsonToFile(std::string jsonData) {
     
     std::ofstream dfile(dataPath + "data/answers.json");

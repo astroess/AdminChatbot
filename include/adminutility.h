@@ -9,6 +9,10 @@
 
 struct AnswerRec;
 
+/**
+ * Utility class for both the adminusers and adminChatbot applications. Descriptions
+ * for class methods/functions are on the adminutility.cpp implementation.
+ */ 
 class AdminUtility {
     public:
         std::unique_ptr<std::string> _jsonData = std::make_unique<std::string>();
@@ -17,10 +21,6 @@ class AdminUtility {
         const std::string userAdminFilePathLock{"../data/adminusers.lock"};
         const std::string dataPath = "../";
         const std::string imgBasePath = dataPath + "images/";
-
-        //For debugging purposes
-        //const std::string userAdminFilePathLock{"./data/adminusers.lock"};
-        //const std::string userAdminFile{"./data/adminusers.txt"};
 
         bool isUserPassValid(std::string &user, std::string &pass, std::vector<std::string> *pdata);
         std::string encrypt(std::string msg);

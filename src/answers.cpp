@@ -67,7 +67,6 @@ void Answers::OnsaveButtonClick(wxCommandEvent& event) {
 	//3) Msgbox that says success or failure.
 	//4) close window.
 	if (au.IsJsonValid(answerTextCtrl->GetValue().ToStdString())) {
-		std::cout << "It is valid json.\n"; 
 
 		if (au.WriteJsonToFile(answerTextCtrl->GetValue().ToStdString())) {
 			wxMessageBox("Changes were successfully saved.", 
