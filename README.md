@@ -5,12 +5,12 @@ The Admin ChatBot is made up of 2 applications.  When the project is built using
 * cmake >= 5.5 <br>
 * All OSes: [click here for installation instructions](https://cmake.org/install/) <br>
 * make >= 4.1 (Linux, Mac), 3.81 (Windows) <br>
-  <blockquote>* Linux: make is installed by default on most Linux distros
-  * Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)
+  <blockquote>* Linux: make is installed by default on most Linux distros<br>
+  * Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)<br>
   * Windows: [Click here for installation instructions](http://gnuwin32.sourceforge.net/packages/make.htm) </blockquote>
 * gcc/g++ >= 5.5 <br>
-  <blockquote>* Linux: gcc / g++ is installed by default on most Linux distros
-  * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
+  <blockquote>* Linux: gcc / g++ is installed by default on most Linux distros<br>
+  * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)<br>
   * Windows: recommend using [MinGW](http://www.mingw.org/) </blockquote>
 
 <h2>Basic Build Instructions</h2>
