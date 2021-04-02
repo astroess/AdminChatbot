@@ -26,7 +26,7 @@ Running the "adminusers" program brings the above command line menu up. This is 
 <br><br>
 To exit the program, enter "Q" at the command line of the main menu, otherwise follow the general instructions to back out to the main menu.
 <br><br>
-### Program Features
+<b>Admin User Program Features</b>
 <ul>
  <li>Passwords are encrypted once a new admin user record is created.</li>
  <li>The adminuser.txt file is used primary adminchatbot application to authenticate an Admin user.</li>
