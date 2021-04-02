@@ -32,9 +32,10 @@ To exit the program, enter "Q" at the command line of the main menu, otherwise f
   <li>Passwords are encrypted once a new admin user record is created.</li>
   <li>The same adminuser.txt file is used within the adminchatbot application to authenticate an Admin user.</li>
   <li>Can't Ctrl-C out of the program.  Must quit the from the main menu. </li> 
+  <li>There's a lock file mechanism in place so that only one adminusers instance at a time can modify the adminusers.txt file.</li>
 </ul>
 <h2>AdminChatBot (adminchatbot) Details</h2>
 <img src="images/AdminChatBot.jpg" title="admin chatbot"/>
-
+The main chatbot application uses wxWidgets as it's GUI framework.  The main entry point of the application is ChatBotApp::OnInit() in chatgui.cpp.
 
 
