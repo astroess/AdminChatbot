@@ -1,5 +1,5 @@
 # CPPND: Capstone Admin ChatBot!
-The Admin ChatBot is made up of 2 applications.  When the project is built using the "Basic Build Instructions" below, 2 executables are the result (adminuser, adminchatbot).  adminuser is a command line program that will allow the user to add new Admin users for use within the adminchatbot application.  
+The Admin ChatBot is made up of 2 applications.  When the project is built using the "Basic Build Instructions" below, 2 executables are generated (adminuser, adminchatbot).  adminuser is a command line program that will allow the admin user to add new Admin users for use within the adminchatbot application.  The adminchatbot executable is the actual chatbot gui application.  Both can be run from the build directory.  
 
 ## Dependencies for Running Locally
 * cmake >= 5.5
