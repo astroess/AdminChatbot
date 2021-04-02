@@ -1,5 +1,5 @@
 # CPPND: Capstone Admin ChatBot!
-
+The
 
 ## Dependencies for Running Locally
 * cmake >= 5.5
@@ -20,3 +20,5 @@
 3. Compile: `cmake .. && make`
 4. Run it: `./HelloWorld`.
 
+## Admin User Details
+<img src="images/AdminUser.jpg" title="admin user"/>
