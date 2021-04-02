@@ -1,5 +1,5 @@
 # CPPND: Capstone Admin ChatBot!
-The
+The Admin ChatBot is made up of 2 applications.  When the project is built using the "Basic Build Instructions" below, 2 executables are the result (adminuser, adminchatbot).  adminuser is a command line program that will allow the user to add new Admin users for use within the adminchatbot application.  
 
 ## Dependencies for Running Locally
 * cmake >= 5.5
@@ -15,7 +15,7 @@ The
 
 ## Basic Build Instructions
 
-1. Clone this repo.
+1. Clone this repo, https://github.com/astroess/CppND-Capstone-AdminChatbot.git
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./HelloWorld`.
