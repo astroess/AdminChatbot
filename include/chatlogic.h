@@ -10,43 +10,41 @@
 
 // forward declarations
 class ChatBot;
-class GraphEdge;
-class GraphNode;
 
 class ChatLogic {
-private:
-    std::unique_ptr<AnswerNode> _answerNode = std::make_unique<AnswerNode>();
-    bool _running = false; // set to stop thread
-    bool _closed = false; // set by thread to indicate it ended
+    public:
+        // constructor / destructor
+        ChatLogic();
+        ~ChatLogic();
 
-    // data handles (not owned)
-    ChatBot *_chatBot;
-    ChatBotPanelDialog *_panelDialog;
+        // getter / setter
+        void SetPanelDialogHandle(ChatBotPanelDialog *panelDialog);
+        void SetChatbotHandle(ChatBot *chatbot);
+
+        // proprietary functions
+        void LoadAnswerGraphFromFile(std::string filename);  //Old
+        void LoadAnswersFromJsonFile(std::string filename);
+        void RunDataSynchronization(std::string filename);
+        void SendMessageToChatbot(std::string message);
+        void SendMessageToUser(std::string message);
+        AnswerNode *GetAnswerNode() {return _answerNode.get();}
+        wxBitmap *GetImageFromChatbot();
+
+    private:
+        std::unique_ptr<AnswerNode> _answerNode = std::make_unique<AnswerNode>();
+        bool _running = false; // set to stop thread
+        bool _closed = false; // set by thread to indicate it ended
+
+        // data handles
+        ChatBot *_chatBot;
+        ChatBotPanelDialog *_panelDialog;
     
-    // proprietary type definitions
-    typedef std::vector<std::pair<std::string, std::string>> tokenlist;
+        // proprietary type definitions
+        typedef std::vector<std::pair<std::string, std::string>> tokenlist;
 
-    // proprietary functions
-    template <typename T>
-    void AddAllTokensToElement(std::string tokenID, tokenlist &tokens, T &element);
-
-public:
-    // constructor / destructor
-    ChatLogic();
-    ~ChatLogic();
-
-    // getter / setter
-    void SetPanelDialogHandle(ChatBotPanelDialog *panelDialog);
-    void SetChatbotHandle(ChatBot *chatbot);
-
-    // proprietary functions
-    void LoadAnswerGraphFromFile(std::string filename);  //Old
-    void LoadAnswersFromJsonFile(std::string filename);
-    void RunDataSynchronization(std::string filename);
-    void SendMessageToChatbot(std::string message);
-    void SendMessageToUser(std::string message);
-    AnswerNode* GetAnswerNode() {return _answerNode.get();}
-    wxBitmap *GetImageFromChatbot();
+        // proprietary functions
+        template <typename T>
+        void AddAllTokensToElement(std::string tokenID, tokenlist &tokens, T &element);
 };
 
 #endif /* CHATLOGIC_H_ */

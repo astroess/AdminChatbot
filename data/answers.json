@@ -2,18 +2,21 @@
     "data": [
         {
             "keywords": [
-                "one",
-                "two"
+                "Information Technology",
+                "Information",
+                "Technology"
             ],
-            "answer": "This is my best one, two2, and three answer"
+            "answer": "Information Technology (IT) is a Great industry.  Several displines make up IT like Network Administration, Software Development, DevOps, and Data Administration to name some."
         },
         {
             "keywords": [
-                "Software development",
-                "Writing code",
-                "coding"
+                "Software Development",
+                "Software",
+                "Development",
+                "Writing Code",
+                "Coding"
             ],
-            "answer": "Software development_1 lives in all of us."
+            "answer": "Software development refers to a set of computer science activities dedicated to the process of creating, designing, deploying and supporting software."
         },
         {
             "keywords": [
@@ -21,7 +24,26 @@
                 "Network Adminstration",
                 "Administration"
             ],
-            "answer": "Network administration_1 is for wimps and pansies."
+            "answer": "Network administrators are responsible for installing, maintaining and upgrading any software or hardware required to efficiently run a computer network"
+        },
+        {
+            "keywords": [
+                "DevOps",
+                "Automation",
+                "Deployments",
+                "Automated Deploy"
+            ],
+            "answer": "DevOps is the combination of practices and tools designed to increase an organization's ability to deliver applications and services faster than traditional software development processes."
+        },
+        {
+            "keywords": [
+                "Data",
+                "Database",
+                "Database Administration",
+                "Data Admin"
+            ],
+            "answer": "Database administration is the function of managing and maintaining database management systems (DBMS) software."
         }
+
     ]
 }

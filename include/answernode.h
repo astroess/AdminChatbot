@@ -11,6 +11,11 @@ struct AnswerRec {
     std::string answer;
 };
 
+/**
+ * The AnswerNode class is declared as a unique pointer in the ChatLogic class.
+ * This unique pointer is moved around the application as needed.  The class
+ * holds the ongoing dynamic Json data throughout the application. 
+ */
 class AnswerNode {
     public:
         const std::string GREETING_MSG = "Welcome to the Admin Chatbot Demonstration. With the appropriate credentials, new Answers and keywords can be added to the chatbot data file.";

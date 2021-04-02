@@ -4,11 +4,18 @@
 #include "chatbot.h"
 
 
+/**
+ * This member function moves that chatbot instance to AnswerNode.
+ */
 void AnswerNode::MoveChatbotHere(ChatBot chatbot) {
     _chatBot = std::move(chatbot);
     _chatBot.SetCurrentMessage();
 }
 
+/**
+ * Checks to make sure the Json file is present, and then sets the
+ * filedate for future file checks.
+ */
 bool AnswerNode::CheckAndUpdateFileJson(std::string filename) {
     struct stat st;
     

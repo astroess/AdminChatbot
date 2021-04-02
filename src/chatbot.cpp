@@ -8,51 +8,31 @@
 #include "answernode.h"
 #include "adminutility.h"
 
-// constructor WITHOUT memory allocation
-ChatBot::ChatBot()
-{
-    // invalidate data handles
+ChatBot::ChatBot() {
     _image = nullptr;
     _chatLogic = nullptr;
-    _rootNode = nullptr;
     _answerNode = nullptr;
 }
 
-// constructor WITH memory allocation
-ChatBot::ChatBot(std::string filename)
-{
-    
-    // invalidate data handles
+ChatBot::ChatBot(std::string filename) {
     _chatLogic = nullptr;
-    _rootNode = nullptr;
     _answerNode = nullptr;
 
     // load image into heap memory
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
 }
 
-/**
- * Rule 1 (of Rule of 5). Destructor.
- */ 
-ChatBot::~ChatBot()
-{
+ChatBot::~ChatBot() {
 
     // deallocate heap memory
-    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
-    {
+    // wxWidgets uses NULL and not nullptr
+    if(_image != NULL) {
         delete _image;
         _image = NULL;
     }
 }
 
-//// STUDENT CODE
-//// Task 2. Rule of 5.
-/**
- * Rule 2. Copy Constructor
- */ 
 ChatBot::ChatBot(const ChatBot &source) {
-    _currentNode = source._currentNode;
-    _rootNode = source._rootNode;
     _answerNode = source._answerNode;
     _chatLogic = source._chatLogic;
     _image = source._image;
@@ -60,10 +40,9 @@ ChatBot::ChatBot(const ChatBot &source) {
 }
 
 /**
- * Rule 3. Copy Assignment Operator 
+ * Copy Assignment Operator 
  */ 
-ChatBot &ChatBot::operator=(const ChatBot &source) 
-{
+ChatBot &ChatBot::operator=(const ChatBot &source) {
     if (this == &source) 
         return *this;
     
@@ -71,8 +50,6 @@ ChatBot &ChatBot::operator=(const ChatBot &source)
         delete _image;
 
     _image = new wxBitmap(*source._image);
-    _currentNode = source._currentNode;
-    _rootNode = source._rootNode;
     _answerNode = source._answerNode;
     _chatLogic = source._chatLogic;
     _chatLogic->SetChatbotHandle(this);
@@ -81,20 +58,15 @@ ChatBot &ChatBot::operator=(const ChatBot &source)
 }
 
 /**
- * Rule 4. Move Constructor
+ * Move Constructor
  */ 
-ChatBot::ChatBot(ChatBot &&source) 
-{
-    _currentNode = source._currentNode;
-    _rootNode = source._rootNode;
+ChatBot::ChatBot(ChatBot &&source) {
     _answerNode = source._answerNode;
     _chatLogic = source._chatLogic;
     _image = source._image;
 
     _chatLogic->SetChatbotHandle(this);
 
-    source._currentNode = nullptr;
-    source._rootNode = nullptr;
     source._answerNode = nullptr;
     source._chatLogic = nullptr;    
     delete source._image;
@@ -103,10 +75,9 @@ ChatBot::ChatBot(ChatBot &&source)
 }
 
 /**
- * Rule 5. Move Assignment Operator
+ * Move Assignment Operator
  */ 
-ChatBot &ChatBot::operator=(ChatBot &&source)
-{
+ChatBot &ChatBot::operator=(ChatBot &&source) {
     if (this == &source)
         return *this;
 
@@ -114,15 +85,11 @@ ChatBot &ChatBot::operator=(ChatBot &&source)
          delete _image;
 
     _image = new wxBitmap(*source._image);
-    _currentNode = source._currentNode;
-    _rootNode = source._rootNode;
     _answerNode = source._answerNode;
     _chatLogic = source._chatLogic;
     
     _chatLogic->SetChatbotHandle(this);
 
-    source._currentNode = nullptr;
-    source._rootNode = nullptr;
     source._answerNode = nullptr;
     source._chatLogic = nullptr;    
     source._image = NULL;
@@ -130,10 +97,11 @@ ChatBot &ChatBot::operator=(ChatBot &&source)
     return *this;
 }
 
-////
-//// EOF STUDENT CODE
-
-void ChatBot::ReceiveMessageFromUser2(std::string message) {
+/**
+ * Function to interpret message from user by calling the
+ * ComputeLevenshteinDistance function.
+ */
+void ChatBot::ReceiveMessageFromUser(std::string message) {
     typedef std::pair<std::string, int> AnswerPair;
     std::vector<AnswerPair> answerPairValues;
 
@@ -168,6 +136,10 @@ void ChatBot::ReceiveMessageFromUser2(std::string message) {
     answerPairValues.clear();
 }
 
+/**
+ * Sets the current message.  If it is the first time being called, 
+ * the general greeting message is displayed.
+ */
 void ChatBot::SetCurrentMessage() {
     
     if (_answerNode->IsDisplayGreeting()) {
@@ -180,8 +152,10 @@ void ChatBot::SetCurrentMessage() {
     }
 }
 
-int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)
-{
+/**
+ * Levenshtein distance calculation of the difference between 2 strings.
+ */
+int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2) {
     // convert both strings to upper-case before comparing
     std::transform(s1.begin(), s1.end(), s1.begin(), ::toupper);
     std::transform(s2.begin(), s2.end(), s2.begin(), ::toupper);
@@ -201,21 +175,17 @@ int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)
         costs[k] = k;
 
     size_t i = 0;
-    for (std::string::const_iterator it1 = s1.begin(); it1 != s1.end(); ++it1, ++i)
-    {
+    for (std::string::const_iterator it1 = s1.begin(); it1 != s1.end(); ++it1, ++i) {
         costs[0] = i + 1;
         size_t corner = i;
 
         size_t j = 0;
-        for (std::string::const_iterator it2 = s2.begin(); it2 != s2.end(); ++it2, ++j)
-        {
+        for (std::string::const_iterator it2 = s2.begin(); it2 != s2.end(); ++it2, ++j) {
             size_t upper = costs[j + 1];
-            if (*it1 == *it2)
-            {
+            if (*it1 == *it2) {
                 costs[j + 1] = corner;
             }
-            else
-            {
+            else {
                 size_t t(upper < corner ? upper : corner);
                 costs[j + 1] = (costs[j] < t ? costs[j] : t) + 1;
             }

@@ -13,6 +13,10 @@
 
 ChatLogic::ChatLogic() { }
 
+/**
+ * The Destructor will stop the external file sychronizing thread that was started
+ * when the application stated.
+ */
 ChatLogic::~ChatLogic() {
     _running = false; // stop external thread
 
@@ -20,7 +24,11 @@ ChatLogic::~ChatLogic() {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
 }
 
-
+/**
+ * The LoadAnswersFromJsonFile function loads the json data from the 
+ * answers.json file located in the data directory.  It also sets the AnswerNode
+ * data for the running application.
+ */
 void ChatLogic::LoadAnswersFromJsonFile(std::string filename) {
     AdminUtility au;
     std::vector<AnswerRec> answerRecs = au.GetAnswerRecsFromFile(filename);
@@ -38,6 +46,7 @@ void ChatLogic::LoadAnswersFromJsonFile(std::string filename) {
         exit(1);
     }
 
+    //Start external thread to monitor file changes.
     std::thread externalThread(&ChatLogic::RunDataSynchronization, this, filename);
     externalThread.detach();
     _running = false;
@@ -48,6 +57,12 @@ void ChatLogic::LoadAnswersFromJsonFile(std::string filename) {
     _answerNode->MoveChatbotHere(std::move(stackChatBot));    
 }
 
+/**
+ * The RunDataSynchronization function runs in a separate thread checking to see
+ * if the filename (answers.json) file changed.  If there is a change the data
+ * will re-load into the AnswerNode instance.  This allows the data to stay in-sync
+ * during runtime even if the answers.json is changed from an outside application.
+ */ 
 void ChatLogic::RunDataSynchronization(std::string filename) {
     AdminUtility au;
     _running = true;
@@ -72,28 +87,22 @@ void ChatLogic::RunDataSynchronization(std::string filename) {
 }
 
 
-void ChatLogic::SetPanelDialogHandle(ChatBotPanelDialog *panelDialog)
-{
+void ChatLogic::SetPanelDialogHandle(ChatBotPanelDialog *panelDialog) {
     _panelDialog = panelDialog;
 }
 
-void ChatLogic::SetChatbotHandle(ChatBot *chatbot)
-{
+void ChatLogic::SetChatbotHandle(ChatBot *chatbot) {
     _chatBot = chatbot;
 }
 
-void ChatLogic::SendMessageToChatbot(std::string message)
-{
-    //_chatBot->ReceiveMessageFromUser(message);
-    _chatBot->ReceiveMessageFromUser2(message);
+void ChatLogic::SendMessageToChatbot(std::string message) {
+    _chatBot->ReceiveMessageFromUser(message);
 }
 
-void ChatLogic::SendMessageToUser(std::string message)
-{
+void ChatLogic::SendMessageToUser(std::string message) {
     _panelDialog->PrintChatbotResponse(message);
 }
 
-wxBitmap *ChatLogic::GetImageFromChatbot()
-{
+wxBitmap *ChatLogic::GetImageFromChatbot() {
     return _chatBot->GetImageHandle();
 }

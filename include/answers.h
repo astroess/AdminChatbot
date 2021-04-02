@@ -1,30 +1,27 @@
 #ifndef ANSWERS_H_
 #define ANSWERS_H_
 
-//(*Headers(Answers)
 #include <wx/button.h>
 #include <wx/dialog.h>
 #include <wx/gbsizer.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
 #include "answernode.h"
-//*)
 
-class Answers: public wxDialog
-{
+/**
+ * The Answers class holds the wxWidgets initializations for the Answers dialog in 
+ * the application.  The dialog allows an Admin user to modify the data.
+ */
+class Answers: public wxDialog {
 	public:
 
 		Answers(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~Answers();
 
-		//(*Declarations(Answers)
 		wxButton* cancelButton;
 		wxButton* saveButton;
-		//wxStaticText* StaticText1;
 		wxStaticText* StaticText2;
 		wxTextCtrl* answerTextCtrl;
-		//wxTextCtrl* keyTextCtrl;
-		//*)
 		void SetAnswerNode(AnswerNode *answerNode) {_answerNode = answerNode;}
 		
 	protected:
@@ -48,7 +45,5 @@ class Answers: public wxDialog
 
 		DECLARE_EVENT_TABLE()
 };
-
-
 
 #endif /* ANSWERS_H_ */

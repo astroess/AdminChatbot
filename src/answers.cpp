@@ -13,12 +13,12 @@ const long Answers::ID_BUTTON1 = wxNewId();
 const long Answers::ID_BUTTON2 = wxNewId();
 
 BEGIN_EVENT_TABLE(Answers,wxDialog)
-	//(*EventTable(Answers)
-	//*)
 END_EVENT_TABLE()
 
+/**
+ * Constructor to setup Json Answers dialog window.
+ */
 Answers::Answers(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size) {
-	//(*Initialize(Answers)
 	wxGridBagSizer* dialogGridBagSizer;
 
 	Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxCAPTION|wxCLOSE_BOX|wxMINIMIZE_BOX, _T("id"));
@@ -39,17 +39,9 @@ Answers::Answers(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize&
 	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&Answers::OncancelButtonClick);
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&Answers::OnsaveButtonClick);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&Answers::OnClose);
-	//*)
-
-	// std::string testme = "hello this is a string\nWhat's going on \"with\" this.";
-	// answerTextCtrl->SetValue(testme);
 }
 
-Answers::~Answers() {
-	//(*Destroy(Answers)
-	//*)
-}
-
+Answers::~Answers() {}
 
 void Answers::OnClose(wxCloseEvent& event) {
 	Destroy();
@@ -59,13 +51,13 @@ void Answers::OncancelButtonClick(wxCommandEvent& event) {
 	Destroy();
 }
 
+/**
+ * Function checks for Json validity and then calls the adminutility. If valid, 
+ * write fresh to the answers.json file. Show Msgbox that says success or failure.
+ */
 void Answers::OnsaveButtonClick(wxCommandEvent& event) {
 	AdminUtility au;
 
-	//1) Check for Json validity.  Call the adminutility.
-	//2) If valid, write fresh to the answers.json file.
-	//3) Msgbox that says success or failure.
-	//4) close window.
 	if (au.IsJsonValid(answerTextCtrl->GetValue().ToStdString())) {
 
 		if (au.WriteJsonToFile(answerTextCtrl->GetValue().ToStdString())) {
