@@ -29,10 +29,10 @@ To exit the program, enter "Q" at the command line of the main menu, otherwise f
 <br><br>
 <b>Admin User Program Features</b>
 <ul>
- <li>Passwords are encrypted once a new admin user record is created.</li>
- <li>The adminuser.txt file is used primary adminchatbot application to authenticate an Admin user.</li>
+  <li>Passwords are encrypted once a new admin user record is created.</li>
+  <li>The same adminuser.txt file is used within the adminchatbot application to authenticate an Admin user.</li>
+  <li>Can't Ctrl-C out of the program.  Must quit the from the main menu. </li> 
 </ul>
-<br>
 <h2>AdminChatBot (adminchatbot) Details</h2>
 <img src="images/AdminChatBot.jpg" title="admin chatbot"/>
 
