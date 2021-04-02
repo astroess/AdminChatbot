@@ -13,7 +13,7 @@ The Admin ChatBot is made up of 2 applications.  When the project is built using
   * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
   * Windows: recommend using [MinGW](http://www.mingw.org/)
 
-## Basic Build Instructions
+<h2>Basic Build Instructions</h2>
 
 1. Clone this repo, https://github.com/astroess/CppND-Capstone-AdminChatbot.git
 2. Make a build directory in the top level directory: `mkdir build && cd build`
