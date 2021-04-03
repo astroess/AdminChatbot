@@ -23,7 +23,7 @@ The Admin ChatBot is made up of 2 applications.  When the project is built using
 
 <b>Suggested Run Path</b>
 1. Run adminuser first and add a user/password for yourself.
-2. Then run adminchatbot and use the created credentials in the previous step to log in as an admin.
+2. Then run adminchatbot and use the created credentials in the previous step to log in as an admin.  User/passwords are case sensitive.
 3. Experiment with adding new answers and keywords.  It is assumed that the person running adminchatbot understands the structure of Json data.
 4. It is assumed that both executables will be run from the ./build directory.  Future enhancements could include a properties file that would define data file locations.
 
@@ -49,9 +49,10 @@ The general user part of the Admin Chatbot application works like any other chat
 <b>AdminChatBot Features</b>
 <ul>
   <li>Admin authentication that includes decryption of the admin password.</li>
-  <li>asdf</li>
-  <li>asdf</li> 
-  <li>adf</li>
+  <li>Memory management throughout including the use of smart unique pointers (AnswerNode).</li>
+  <li>Multi-Threaded functionality (ChatLogic::RunDataSynchronization).  In a nutshell, when AdminChatBot starts, another thread is spun to synchronize any file changes with the primary AnswerNode</li> 
+  <li>When the application is exiting, the ChatLogic Destructor will make sure that the second thread is stopped.</li>
+  <li>Object Oriented Design Classes are used throughout AdminChatBot.</li>
 </ul>
 
 
