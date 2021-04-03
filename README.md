@@ -44,7 +44,7 @@ To exit the program, enter "Q" at the command line of the main menu, otherwise f
 <img src="images/AdminChatBot.jpg" title="admin chatbot"/>
 The main chatbot application uses wxWidgets as it's GUI framework.  The main entry point of the application is ChatBotApp::OnInit() in chatgui.cpp.  While at first glance this chatbot might look similar to CppND-Memory-Management-Chatbot, it is however very different.  The intent of this chatbot is for Admin users who desire to make changes to the keywords/answers can do so easily using the application.  Changes can also be made to the answers.json using another editor.
 <br><br>
-The general user part of the Admin Chatbot application works like any other chatbot.  The user types in a question or keyword, and an automated question is returned.
+The general user part of the Admin Chatbot application works like any other chatbot.  The user types in a question or keyword, and an automated question is returned.  To exit the application, click on the red X on the top bar of the window frame.
 <br><br>
 <b>AdminChatBot Features</b>
 <ul>
