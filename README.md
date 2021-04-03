@@ -54,5 +54,7 @@ The general user part of the Admin Chatbot application works like any other chat
   <li>When the application is exiting, the ChatLogic Destructor will make sure that the second thread is stopped.</li>
   <li>Object Oriented Design Classes are used throughout AdminChatBot.</li>
 </ul>
+<br>
+<h2>Class Files Tree</h2>
 
 
