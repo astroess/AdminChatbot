@@ -19,7 +19,12 @@ The Admin ChatBot is made up of 2 applications.  When the project is built using
 1. Clone this repo, https://github.com/astroess/CppND-Capstone-AdminChatbot.git
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./HelloWorld`.
+4. Run it: `./adminuser or ./adminchatbot`.
+
+<b>Suggested Run Path</b>
+1. Run adminuser first and add a user/password for yourself.
+2. Then run adminchatbot and use the created credentials in the previous step to log in as an admin.
+3. Experiment with adding new answers and keywords.  It is assumed that the person running adminchatbot understands the structure of Json data.
 
 <h2>Admin User (adminuser) Details</h2>
 <img src="images/AdminUser.jpg" title="admin user"/>
