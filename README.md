@@ -25,6 +25,7 @@ The Admin ChatBot is made up of 2 applications.  When the project is built using
 1. Run adminuser first and add a user/password for yourself.
 2. Then run adminchatbot and use the created credentials in the previous step to log in as an admin.
 3. Experiment with adding new answers and keywords.  It is assumed that the person running adminchatbot understands the structure of Json data.
+4. It is assumed that both executables will be run from the ./build directory.  Future enhancements could include a properties file that would define data file locations.
 
 <h2>Admin User (adminuser) Details</h2>
 <img src="images/AdminUser.jpg" title="admin user"/>
@@ -42,5 +43,15 @@ To exit the program, enter "Q" at the command line of the main menu, otherwise f
 <h2>AdminChatBot (adminchatbot) Details</h2>
 <img src="images/AdminChatBot.jpg" title="admin chatbot"/>
 The main chatbot application uses wxWidgets as it's GUI framework.  The main entry point of the application is ChatBotApp::OnInit() in chatgui.cpp.  While at first glance this chatbot might look similar to CppND-Memory-Management-Chatbot, it is however very different.  The intent of this chatbot is for Admin users who desire to make changes to the keywords/answers can do so easily using the application.  Changes can also be made to the answers.json using another editor.
+<br><br>
+The general user part of the Admin Chatbot application works like any other chatbot.  The user types in a question or keyword, and an automated question is returned.
+<br><br>
+<b>AdminChatBot Features</b>
+<ul>
+  <li>Admin authentication that includes decryption of the admin password.</li>
+  <li>asdf</li>
+  <li>asdf</li> 
+  <li>adf</li>
+</ul>
 
 
