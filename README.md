@@ -1,6 +1,6 @@
-# CPPND: Capstone Admin ChatBot!
+# CPPND: Capstone AdminChatBot!
 This readme file is best read on github while in the root directory of the project. https://github.com/astroess/CppND-Capstone-AdminChatbot <br><br>
-The Admin ChatBot is made up of 2 applications.  When the project is built using the "Basic Build Instructions" below, 2 executables are generated (adminuser, adminchatbot).  adminuser is a command line program that will allow the admin user to add new Admin users for use within the adminchatbot application.  The adminchatbot executable is the actual chatbot gui application.  Both programs should be run from the build directory.  
+The AdminChatBot is made up of 2 applications.  When the project is built using the "Basic Build Instructions" below, 2 executables are generated (adminuser, adminchatbot).  adminuser is a command line program that will allow the admin user to add new Admin users for use within the adminchatbot application.  The adminchatbot executable is the actual chatbot gui application.  Both programs should be run from the build directory.  
 
 <h2>Dependencies for Running Locally</h2>
 * cmake >= 5.5 <br>
