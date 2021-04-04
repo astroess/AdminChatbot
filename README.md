@@ -13,7 +13,9 @@ The AdminChatBot is made up of 2 applications.  When the project is built using 
   <blockquote>* Linux: gcc / g++ is installed by default on most Linux distros<br>
   * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)<br>
   * Windows: recommend using [MinGW](http://www.mingw.org/) </blockquote>
-
+* wxWidgets >= 3.0.  This was already installed in Udacity's workspace. <br>
+* RapidJson >= 1.1.  This is included with the project code.  No extra install is needed.
+ 
 <h2>Basic Build Instructions</h2>
 
 1. Clone this repo, https://github.com/astroess/CppND-Capstone-AdminChatbot.git
