@@ -29,7 +29,7 @@ The AdminChatBot is made up of 2 applications.  When the project is built using 
   <li>answers.h, answers.cpp - These are the header and implementation files for the Answers class.  This class holds the wxWidgets definitions for the Answers Dialog window that contains the JSON data current held in the AnswerNode class.</li>
   <li>chatbot.h, chatbot.cpp - These are the header and implementation files for the ChatBot class.  This class is repsonsible for handling messages between the user and AdminChatbot application.  It also holds the Levenshtein string distance calculation function.</li>
   <li>chatgui.h, chatgui.cpp - These are the header and implementation files for variable wxWidget Frame and Dialog classes for the application.</li>
-  <li>chatlogic.h, chatlogic.cpp - These are the header and implementation files for the ChatLogic class.  The ChatLog class controls the flow of data within the AdminChatBot application.</li>
+  <li>chatlogic.h, chatlogic.cpp - These are the header and implementation files for the ChatLogic class.  The ChatLogic class controls the flow of data within the AdminChatBot application.</li>
 </ul>
 
 <h2>Basic Build Instructions</h2>
