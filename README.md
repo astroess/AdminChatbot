@@ -18,7 +18,14 @@ The AdminChatBot is made up of 2 applications.  When the project is built using 
 
 <h2>Class Files Tree</h2>
 <img src="images/ClassStructure.jpg" title="admin chatbot"/>
-
+<ul>
+  <li>The "data" directory contains 2 files for both programs.  The "adminusers.txt" file contains user names and passwords for both programs.  The "answers.json" file contains the keywords and answers for adminchatbot in JSON format.</li>
+  <li>The "images" directory contains the images for the AdminChatBot.</li>
+  <li>The "include" directory contains the header files and rapidjson parser header files.</li>
+  <li>The "src" directory contains the implementation code.</li>
+  <li>The "utils" directory contains the adminusers command line procedural code.</li>
+  
+</ul>
 
 
 
