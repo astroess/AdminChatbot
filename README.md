@@ -23,7 +23,7 @@ The AdminChatBot is made up of 2 applications.  When the project is built using 
   <li>The "images" directory contains the images for the AdminChatBot.</li>
   <li>The "include" directory contains the header files and rapidjson parser header files.</li>
   <li>The "src" directory contains the implementation code.</li>
-  <li>The "utils" directory contains the adminusers command line procedural code.</li>
+  <li>The "utils" directory contains the adminusers.cpp file that contains the procedural code for adminusers.</li>
   
 </ul>
 
