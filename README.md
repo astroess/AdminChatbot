@@ -15,7 +15,13 @@ The AdminChatBot is made up of 2 applications.  When the project is built using 
   * Windows: recommend using [MinGW](http://www.mingw.org/) </blockquote>
 * wxWidgets >= 3.0.  This was already installed in Udacity's workspace. <br>
 * RapidJson >= 1.1.  This is included with the project code.  No extra install is needed.
- 
+
+<h2>Class Files Tree</h2>
+<img src="images/ClassStructure.jpg" title="admin chatbot"/>
+
+
+
+
 <h2>Basic Build Instructions</h2>
 
 1. Clone this repo, https://github.com/astroess/CppND-Capstone-AdminChatbot.git
@@ -57,7 +63,5 @@ The general user part of the Admin Chatbot application works like any other chat
   <li>Object Oriented Design Classes are used throughout AdminChatBot.</li>
 </ul>
 <br>
-<h2>Class Files Tree</h2>
-<img src="images/ClassStructure.jpg" title="admin chatbot"/>
 
 
