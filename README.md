@@ -47,7 +47,7 @@ The AdminChatBot is made up of 2 applications.  When the project is built using 
 
 <h2>Admin User (adminuser) Details</h2>
 <img src="images/AdminUser.jpg" title="admin user"/>
-Running the "adminusers" program brings the above command line menu up. This is a fairly straight forward procedural program.  It writes/reads credential records to the adminusers.txt file in the data/ directory. There is one user (GuestAdmin) currently in the file.  A new record can be added by entering "1" at the command line.  Follow the instructions.  Hitting 2 will bring up the delete sub-menu.  An admin user record list can be viewed by entering "3" at the command line.
+Running the "adminusers" program brings the above command line menu up. This is a fairly straight forward procedural program.  It writes/reads credential records to the adminusers.txt file in the /data directory. There is one user (GuestAdmin) currently in the file.  A new record can be added by entering "1" at the command line.  Follow the instructions.  Hitting 2 will bring up the delete sub-menu.  An admin user record list can be viewed by entering "3" at the command line.
 <br><br>
 To exit the program, enter "Q" at the command line of the main menu, otherwise follow the general instructions to back out to the main menu.
 <br><br>
