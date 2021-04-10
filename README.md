@@ -34,7 +34,7 @@ The AdminChatBot is made up of 2 applications.  When the project is built using 
 
 <h2>Basic Build Instructions</h2>
 
-1. Clone this repo, https://github.com/astroess/CppND-Capstone-AdminChatbot.git
+1. Clone this repo, https://github.com/astroess/CppND-Capstone-AdminChatbot.git (for Udacity, this has already been cloned in the submission workspace).
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./adminuser or ./adminchatbot`.
@@ -51,7 +51,7 @@ Running the "adminusers" program brings the above command line menu up. This is 
 <br><br>
 To exit the program, enter "Q" at the command line of the main menu, otherwise follow the general instructions to back out to the main menu.
 <br><br>
-<b>Admin User Program Features and Rubric Points</b>
+<b>Admin User Program Features</b>
 <ul>
   <li>Passwords are encrypted once a new admin user record is created.</li>
   <li>The same adminuser.txt file is used within the adminchatbot application to authenticate an Admin user.</li>
@@ -64,7 +64,7 @@ The main chatbot application uses wxWidgets as it's GUI framework.  The main ent
 <br><br>
 The general user part of the Admin Chatbot application works like any other chatbot.  The user types in a question or keyword, and an automated question is returned.  To exit the application, click on the red X on the top bar of the window frame.
 <br><br>
-<b>AdminChatBot Features and Rubric Points</b>
+<b>AdminChatBot Features</b>
 <ul>
   <li>Admin authentication that includes decryption of the admin password.</li>
   <li>Memory management throughout including the use of smart unique pointers (AnswerNode).</li>
@@ -73,5 +73,9 @@ The general user part of the Admin Chatbot application works like any other chat
   <li>Object Oriented Design Classes are used throughout AdminChatBot.</li>
 </ul>
 <br>
-
+<h2>Rubric Points</h2>
+<ul>
+  <li>hello</li>
+</ul> 
+ 
 
