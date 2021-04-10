@@ -42,7 +42,7 @@ The AdminChatBot is made up of 2 applications.  When the project is built using 
 <b>Suggested Run Path</b>
 1. Run adminuser first and add a user/password for yourself.
 2. Then run adminchatbot and use the created credentials in the previous step to log in as an admin.  User/passwords are case sensitive.
-3. Experiment with adding new answers and keywords.  It is assumed that the person running adminchatbot understands the structure of JSON data.
+3. Experiment with adding new answers and keywords, and then using the chatbot to see if the correct answer is returned.  It is assumed that the person running adminchatbot understands the structure of JSON data.
 4. It is assumed that both executables will be run from the ./build directory.  Future enhancements could include a properties file that would define data file locations.
 
 <h2>Admin User (adminuser) Details</h2>
