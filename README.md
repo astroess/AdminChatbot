@@ -25,7 +25,7 @@ The AdminChatBot is made up of 2 applications.  When the project is built using 
   <li>The "src" directory contains the implementation code.</li>
   <li>The "utils" directory contains the adminusers.cpp file that contains the procedural code for adminusers.</li>
   <li>adminutility.h, adminutility.cpp -  These are the header and implementation files for the AdminUtility class. This is a standard utility class with miscellaneous functions used by both programs.</li>
-  <li>answernode.h, answernode.cpp - These are the header and implementation files for the AnswerNode class.  This class is delcared and initialized as a unique smart pointer and hold the current state of the keywords/answers' data file in memory.</li>
+  <li>answernode.h, answernode.cpp - These are the header and implementation files for the AnswerNode class.  This class is delcared and initialized as a unique smart pointer and holds the current state of the keywords/answers' data file in memory.</li>
   <li>answers.h, answers.cpp - These are the header and implementation files for the Answers class.  This class holds the wxWidgets definitions for the Answers Dialog window that contains the JSON data current held in the AnswerNode class.</li>
   <li>chatbot.h, chatbot.cpp - These are the header and implementation files for the ChatBot class.  This class is repsonsible for handling messages between the user and AdminChatbot application.  It also holds the Levenshtein string distance calculation function.</li>
   <li>chatgui.h, chatgui.cpp - These are the header and implementation files for variable wxWidget Frame and Dialog classes for the application.</li>
