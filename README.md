@@ -75,7 +75,10 @@ The general user part of the Admin Chatbot application works like any other chat
 <br>
 <h2>Rubric Points</h2>
 <ul>
-  <li>hello</li>
+  <li>Loops, Functions, I/O: The code for the adminusers program is in the procedural program utils/adminusers.cpp.  The code is organized into organized functions with I/O functionality at lines 247, 268, and more.  This program reads/writes to/from the adminusers.txt file.  There are also mutliple "Loops" throughout the file.</li>
+  <li>Loops, Functions, I/O: The code for the adminchatbot application is in an object oriented design.  All .cpp files have a corresponding .h header file.  The class functions are organized throughout.  There's file I/O starting at the ChatLogic::LoadAnswersFromJsonFile function (chatlogic.cpp:32).  There's addition I/O functionality in the separate external thread at ChatLogic::RunDataSynchronization (chatlogic.cpp:66).  There are many loops throughout the application in almost every .cpp file.</li>
+  <li></li>
+  
 </ul> 
  
 
