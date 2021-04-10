@@ -11,8 +11,8 @@ The AdminChatBot is made up of 2 applications.  When the project is built using 
   * Windows: [Click here for installation instructions](http://gnuwin32.sourceforge.net/packages/make.htm) - not tested.</blockquote>
 * gcc/g++ >= 5.5 <br>
   <blockquote>* Linux: gcc / g++ is installed by default on most Linux distros<br>
-  * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)<br>
-  * Windows: recommend using [MinGW](http://www.mingw.org/) </blockquote>
+  * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/) - not tested.<br>
+  * Windows: recommend using [MinGW](http://www.mingw.org/) - not tested. </blockquote>
 * wxWidgets >= 3.0.  This is already installed in Udacity's workspace. <br>
 * RapidJson >= 1.1.  This is included with the project code.  No extra install is needed.
 
