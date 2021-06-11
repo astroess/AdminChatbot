@@ -1,4 +1,4 @@
-# CPPND: AdminChatBot!
+# AdminChatBot!
 The AdminChatBot is made up of 2 applications.  When the project is built using the "Basic Build Instructions" below, 2 executables are generated (adminuser and adminchatbot).  adminuser is a command line program that will allow the admin user to add new Admin users for use within the adminchatbot application.  The adminchatbot executable is the actual chatbot gui application.  Both programs should be run from the /build directory.  
 
 <h2>Dependencies for Running Locally</h2>
@@ -33,7 +33,7 @@ The AdminChatBot is made up of 2 applications.  When the project is built using 
 
 <h2>Basic Build Instructions</h2>
 
-1. Clone this repo, https://github.com/astroess/CppND-Capstone-AdminChatbot.git (for Udacity, this has already been cloned in the submission workspace).
+1. Clone this repo, https://github.com/astroess/CppND-Capstone-AdminChatbot.git.
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./adminuser or ./adminchatbot`.
