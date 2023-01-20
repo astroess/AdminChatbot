@@ -31,7 +31,7 @@ bool AdminUtility::isUserPassValid(string &user, string &pass, std::vector<strin
         return false;
     }
 
-    //Check for duplicates
+    //Check for duplicates again.
     for (string itr : *pdata) {
         string delimiter = "::::";
         string ucheck = itr.substr(0, itr.find(delimiter)); 
